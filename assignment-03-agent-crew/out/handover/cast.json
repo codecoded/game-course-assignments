@@ -1,0 +1,108 @@
+{
+  "target": {
+    "id": "vale",
+    "name": "Vale",
+    "role": "Councillor; signed the clearance order for the marked block. Kidnap target: must be taken alive to the getaway car.",
+    "routine": "Stays inside the civic office until shift handover. Then leaves by office-north and walks about 13 m to his official car at official-dropoff. If the driver is turned, he leaves by the service-lane door instead. The schedule designer sets the times; the closing event is at 480 s. Rule: Service-lane door is a push-bar exit. Anyone inside can open it from inside at any time. It is always locked from outside, so any Enter at service-lane is rejected. e340-car-moved only changes where Vale exits and where the car waits.",
+    "place": "civic-office"
+  },
+  "people": [
+    {
+      "id": "inez",
+      "name": "Inez",
+      "occupation": "café waitress",
+      "temperament": "Mercenary",
+      "need": "Owes a $40,000 loan to a moneylender who takes her wages each week. The cell can clear it with cash.",
+      "routine": "Works tables in the café courtyard. Takes breaks behind the café, the spot where she meets the office guard. The guard stops at the café before his shift (§05).",
+      "place": "cafe-courtyard",
+      "learn": [
+        {
+          "fact": "routine",
+          "verb": "Watch",
+          "time_s": 52
+        },
+        {
+          "fact": "need",
+          "verb": "Listen",
+          "time_s": 42
+        }
+      ],
+      "approaches": [
+        {
+          "kind": "Ask",
+          "requires": "none",
+          "cost": 0,
+          "time_s": 25,
+          "trail": 1,
+          "leaves": "Remembered refusal: every later offer costs +$10,000 and +1 T"
+        },
+        {
+          "kind": "Pay",
+          "requires": "routine",
+          "cost": 70000,
+          "time_s": 50,
+          "trail": 2,
+          "leaves": "Traceable payment, so she stays neutral. As a Mercenary she will sell the cell to a higher bidder if the rivals outbid you (Menace standing: discount, betrayal risk)"
+        },
+        {
+          "kind": "Help",
+          "requires": "need",
+          "cost": 40000,
+          "time_s": 50,
+          "trail": 1,
+          "leaves": "Debt cleared, so she is grateful. Bravery +1 step for each job she finishes unexposed. Counts toward Talker as bravery: if questioned she lies or gives a false lead"
+        },
+        {
+          "kind": "Pressure",
+          "requires": "need",
+          "cost": 0,
+          "time_s": 35,
+          "trail": 3,
+          "leaves": "Fear, and resentment +1 step. She can identify the Fixer, so there is Talker risk at the debrief (§08: Inez may identify Fixer)"
+        }
+      ],
+      "whenTurned": "On the Fixer's call, at any time while the guard is on post (once per mission), she messages him to meet her behind the café. He leaves his post at the office approach and is gone 120 s: about 41 s walking each way (48.8 m at 1.2 m/s) and 38 s with her. That leaves the office approach with no guard eyes. Only the entrance camera and the patrol bot still watch it. She sees only that he came to her. If the guard is taken down while he is with her, she witnesses it: she is lost as a contact and becomes a debrief betrayal risk (canon)."
+    },
+    {
+      "id": "driver",
+      "name": "Driver",
+      "occupation": "councillor's driver, at the official car",
+      "temperament": "Idealist",
+      "need": "His sister's family is being evicted under Vale's clearance order. They need a $40,000 deposit on a new flat. The cell can pay it in cash.",
+      "routine": "Waits beside the official car at official-dropoff, inside the pickup camera's view. He takes calls from his sister by the car. At handover he opens the car for Vale.",
+      "place": "official-dropoff",
+      "learn": [
+        {
+          "fact": "routine",
+          "verb": "Watch",
+          "time_s": 48
+        },
+        {
+          "fact": "need",
+          "verb": "Listen",
+          "time_s": 46
+        }
+      ],
+      "approaches": [
+        {
+          "kind": "Ask",
+          "requires": "none",
+          "cost": 0,
+          "time_s": 25,
+          "trail": 1,
+          "leaves": "Refuses at neutral standing (Idealist; at Hero standing he would volunteer for free). Remembered refusal: later offers +$10,000 and +1 T"
+        },
+        {
+          "kind": "Help",
+          "requires": "need",
+          "cost": 40000,
+          "time_s": 50,
+          "trail": 1,
+          "leaves": "Deposit paid, so he is grateful. Bravery grows fast (Idealist): +1 step for each job he finishes unexposed. Counts toward Talker as bravery: if questioned he lies or gives a false lead"
+        }
+      ],
+      "whenTurned": "On cue, before Vale leaves the office (the schedule designer sets the last moment to turn him), he tells Vale the north pickup is blocked and moves the official car to the service lane (e340-car-moved). Vale then leaves by the service-lane door, not office-north. This is what makes Vale use the service-lane exit; it never lets anyone in. The pickup point is now outside both cameras' cones. He sees only that he moved the car."
+    }
+  ],
+  "purseLesson": "The purse is $100,000. Both turns rely on the driver's Help at $40,000: as an Idealist he refuses bribes and folds under no threat, so he can only be turned once the Scout learns his need (Listen 46 s). Without that learning, the cell can only Pay Inez ($70,000), and adding the driver costs $70,000 + $40,000 = $110,000, which exceeds $100,000. So the uninformed cell gets one route, not both. The informed cell has the Scout learn her need (Listen 42 s) and Helps her: $40,000 + $40,000 = $80,000, which fits and leaves $20,000 spare. Learning buys the second route. Pressuring Inez ($0 + $40,000 = $40,000) also fits but costs 3 T on Inez's turn, not 1, plus resentment and the risk she identifies the Fixer. Cheap in cash, dear in Trail. If the cell Asks either contact cold first and is refused, that contact costs +$10,000 more: informed totals become $90,000 for one refusal and $100,000 for two, which still fits. Paying Inez after a refusal costs $80,000, and with the driver $120,000, which is still over."
+}

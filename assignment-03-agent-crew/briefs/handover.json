@@ -1,0 +1,23 @@
+{
+  "id": "handover",
+  "district": "Civic Records block, the marked block",
+  "objective": "kidnapping",
+  "target": {
+    "name": "Councillor Vale",
+    "role": "signed the clearance order for the marked block; at shift handover he leaves the Civic Records Office for his official car"
+  },
+  "closingEvent": {
+    "label": "rivals take Vale or the official car leaves",
+    "at_s": 480
+  },
+  "fightTrigger": "always: the rival crew arrives and the mission ends in a firefight with them. Who sides with whom depends on how you played: loud (a guard killed, any shot, or Alert ≥ 2 — security sees you as the threat) → security helps the rivals against you, police close from the west street; quiet (people suborned subtly, no shots, Alert ≤ 1) → security and the people you turned help you against the rivals.",
+  "purse": 100000,
+  "cell": [
+    "Scout",
+    "Fixer",
+    "Tech",
+    "Enforcer"
+  ],
+  "layout": "layouts/civic-district.json",
+  "notes": "Handover's template (GDD §07) on the capstone's civic block: take Vale alive to the getaway car. The block's residents (Vale, Inez, the driver, the rival crew) are in the layout; give them their needs, prices and acts, and write your own schedule and routes. Inez is one way to the guard, not the only one; Vale's driver is another. Taking out the guard is the hard way: shots bring the police from the west street, and the patrol bot breaks toward gunfire within 30 m unless the Tech has hacked it (Reroute) first. Or take him out while he is with Inez, away from the cameras and the bot: quieter, but she witnesses it, is lost as a contact and may betray the cell later (a debrief consequence, §08). GDD §07 is the quality bar, not a script: derive prices and acts from the §04 rules rather than copying §07's."
+}

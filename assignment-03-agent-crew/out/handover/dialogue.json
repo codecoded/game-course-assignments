@@ -1,0 +1,69 @@
+{
+  "lines": [
+    {
+      "personId": "inez",
+      "situation": "Ask",
+      "line": "A favour? For free? Honey, the moneylender takes my wages every week. Order something or move along."
+    },
+    {
+      "personId": "inez",
+      "situation": "Pay",
+      "line": "Seventy thousand buys one message to the guard, nothing more. If someone pays better, don't take it personally."
+    },
+    {
+      "personId": "inez",
+      "situation": "Help",
+      "line": "You cleared the loan? All forty thousand? ...Fine. Tell me when, and the guard comes to me."
+    },
+    {
+      "personId": "inez",
+      "situation": "Pressure",
+      "line": "You know about the loan. And what, you'll tell the lender I'm skimming? ...Okay. One message. Then leave me alone."
+    },
+    {
+      "personId": "inez",
+      "situation": "refusal",
+      "line": "Nobody gets something from me for nothing. Come back with an offer, and it'll cost you more now."
+    },
+    {
+      "personId": "inez",
+      "situation": "confirm_call",
+      "line": "Messaging him now. Break behind the café, two minutes. Better make them count."
+    },
+    {
+      "personId": "inez",
+      "situation": "questioned",
+      "line": "Strangers? Officer, I pour coffee all day. Some tall man bought a pastry and paid in coins. That's all."
+    },
+    {
+      "personId": "inez",
+      "situation": "questioned",
+      "line": "The talker, the one who knew about my loan. Keep me out of it and I'll describe him."
+    },
+    {
+      "personId": "driver",
+      "situation": "Ask",
+      "line": "Drive Vale somewhere else? He signed the order that's evicting my sister. And still, I don't break my word."
+    },
+    {
+      "personId": "driver",
+      "situation": "Help",
+      "line": "The deposit... my sister keeps a roof over her kids. Tell me when. I'll move the car."
+    },
+    {
+      "personId": "driver",
+      "situation": "refusal",
+      "line": "I won't sell out my post to strangers. Ask me again and I'll want more than words."
+    },
+    {
+      "personId": "driver",
+      "situation": "confirm_call",
+      "line": "Councillor, north pickup's blocked. I've brought the car round to the service lane, sir."
+    },
+    {
+      "personId": "driver",
+      "situation": "questioned",
+      "line": "The north pickup was blocked, so I moved the car, like any driver would. Check the logs yourself."
+    }
+  ]
+}

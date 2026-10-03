@@ -1,0 +1,39 @@
+flowchart LR
+  B[/"Mission brief<br/>briefs/*.json<br/>objective · target · closing event · purse"/]
+  L[/"Block layout<br/>layouts/civic-district.json<br/>places · residents · watchers<br/>(stripped from the capstone world manifest)"/]
+  A{{"Lead producer<br/>src/crew.ts<br/>assigns objectives, routes faults, accepts"}}
+  M["Systems designer<br/>→ cast.json<br/>people, needs, priced approaches"]
+  P["Schedule designer<br/>→ schedule.json<br/>timed events, security, rivals"]
+  W["Mission designer<br/>→ mission.json<br/>≥2 quiet routes, loud route, fails"]
+  F["Dialogue designer<br/>→ dialogue.json<br/>lines per approach / call / questioning"]
+  C[["Checker · src/checker.ts + spatial.ts<br/>GDD §09 rules + places, walking, sightlines"]]
+  K["Simulation engineer<br/>→ verdict<br/>block / note per fault"]
+  O[/"mission-package.json + briefing.html<br/>→ Unity import"/]
+
+  B --> A
+  L -- "layout" --> A
+  L -- "layout" --> C
+  A -- "brief + layout" --> M
+  M -- "cast" --> P
+  M -- "cast" --> W
+  M -- "cast" --> F
+  P -- "schedule" --> W
+  W -- "mission" --> C
+  F -- "dialogue" --> C
+  P -- "schedule" --> C
+  M -- "cast" --> C
+  C -- "violations + route stats" --> K
+  K -- "verdict" --> A
+  A -. "blocking faults (max 3 rounds)<br/>to their author" .-> M
+  A -. "revisions" .-> P
+  A -. "revisions" .-> W
+  A -. "revisions" .-> F
+  A -- "accepted" --> O
+
+  subgraph CC["Claude Code: claude -p --agent &lt;name&gt;"]
+    M
+    P
+    W
+    F
+    K
+  end

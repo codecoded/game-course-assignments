@@ -1,0 +1,38 @@
+{
+"id": "civic-district",
+"source": "../../../game-source/experiments/civic-2p5d/world-manifest.json",
+"units": "m",
+"walk_mps": 1.2,
+"crew_start": "getaway-bay",
+"places": [
+  {"id":"cafe-courtyard","xy":[0.1,-1.5],"tags":["meet","sit"]},
+  {"id":"cafe-door","xy":[-1,1.4],"tags":["work"]},
+  {"id":"behind-cafe","xy":[-2,8.5],"tags":["meet","deliver"]},
+  {"id":"cafe-steps","xy":[-1,-7.3],"tags":["wait","watch"]},
+  {"id":"fountain","xy":[-1,-23],"tags":["meet","wait"]},
+  {"id":"plaza-east","xy":[3.5,-18.5],"tags":["watch"]},
+  {"id":"plaza-west","xy":[-5.5,-18.5],"tags":["watch"]},
+  {"id":"getaway-bay","xy":[-8.5,-37.8],"tags":["getaway","vehicle"]},
+  {"id":"official-dropoff","xy":[37.5,9],"tags":["pickup","vehicle"]},
+  {"id":"office-north","xy":[31.2,-2.7],"tags":["entrance"]},
+  {"id":"office-approach","xy":[37,-25.5],"tags":["entrance"]},
+  {"id":"service-lane","xy":[49.7,-15],"tags":["entrance","deliver"]},
+  {"id":"civic-office","xy":[36.5,-13.5],"tags":["interior","target"]},
+  {"id":"south-walkway","xy":[34,-40.5],"tags":["wait","watch"]},
+  {"id":"control-cabinet","xy":[34,-41.7],"tags":["device"]}
+],
+"watchers": [
+  {"id":"entrance-camera","kind":"camera","post":[45,-22],"area":[[45,-22],[26,-27],[38,-36]],"blind_s":null,"sweep":null},
+  {"id":"pickup-camera","kind":"camera","post":[43.5,12.5],"area":[[43.5,12.5],[29,6],[38,1]],"blind_s":null,"sweep":null},
+  {"id":"office-guard","kind":"guard","post":[34,-24.4],"area":[[42,-24.4],[39.7,-18.7],[34,-16.4],[28.3,-18.7],[26,-24.4],[28.3,-30.1],[34,-32.4],[39.7,-30.1]],"blind_s":120,"sweep":null},
+  {"id":"patrol-bot","kind":"patrol","post":[40,-28],"area":[[28,-32],[46,-32],[46,-24],[28,-24]],"blind_s":115,"sweep":{"period_s":100,"gap":[33,67]}},
+  {"id":"fountain-guard","kind":"guard","post":[-1,-18.5],"area":[[13,-18.5],[8.9,-8.6],[-1,-4.5],[-10.9,-8.6],[-15,-18.5],[-10.9,-28.4],[-1,-32.5],[8.9,-28.4]],"blind_s":60,"sweep":null}
+],
+"residents": [
+  {"id":"vale","name":"Vale","role":"target","place":"civic-office","job":"councillor","canon":"the kidnap target; inside the civic office until he leaves for his official car"},
+  {"id":"inez","name":"Inez","role":"contact","place":"cafe-courtyard","job":"café waitress","canon":"having an affair with the office guard; the Scout learns it by listening in at the café, and she can draw him off his post. One way in, not the only one: you can avoid her by taking out the guard or by suborning Vale's driver. If the guard is taken out while he is with her (away from the cameras and the patrol bot), she witnesses it: she is lost as a contact and may betray the cell later"},
+  {"id":"driver","name":"Driver","role":"contact","place":"official-dropoff","job":"councillor's driver, at the official car","canon":"waits at the official car to drive Vale away"},
+  {"id":"rivals","name":"Rival crew","role":"rivals","place":"official-dropoff","job":"rival faction","canon":"not on the block at the start; arrives after a set time to put pressure on, and the mission ends in a firefight with them"}
+],
+"notes": "Rivals, cameras and the patrol sweep are not in the manifest yet; authored here from the prototype (suborned-world-sim.js) until they are. Remove each entry once the manifest carries it."
+}

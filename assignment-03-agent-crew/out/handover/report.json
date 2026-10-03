@@ -1,0 +1,498 @@
+{
+  "accepted": true,
+  "rounds": [
+    {
+      "round": 0,
+      "checker": {
+        "pass": false,
+        "violations": [
+          {
+            "rule": "timing",
+            "owner": "mission-designer",
+            "message": "route B-service-lane step B5-take-vale: ends 388s, after e370-vale-at-car at 370s"
+          },
+          {
+            "rule": "seen",
+            "owner": "mission-designer",
+            "message": "route A-front-door step A6-enter: Enter at office-approach completes at 166s in view of entrance-camera; blind it first (Loop/Call or a schedule event)"
+          },
+          {
+            "rule": "meet",
+            "owner": "mission-designer",
+            "message": "route B-service-lane step B5-take-vale: vale is at office-north at 350s, not service-lane"
+          }
+        ],
+        "routes": [
+          {
+            "id": "A-front-door",
+            "kind": "quiet",
+            "cost": 40000,
+            "trail": 1,
+            "alert": 0,
+            "finish_s": 204,
+            "contacts": [
+              "inez"
+            ]
+          },
+          {
+            "id": "B-service-lane",
+            "kind": "quiet",
+            "cost": 40000,
+            "trail": 1,
+            "alert": 0,
+            "finish_s": 388,
+            "contacts": [
+              "driver"
+            ]
+          },
+          {
+            "id": "L-guard-down",
+            "kind": "loud",
+            "cost": 0,
+            "trail": 4,
+            "alert": 2,
+            "finish_s": 209,
+            "contacts": []
+          }
+        ]
+      },
+      "verdict": {
+        "pass": false,
+        "revisions": [
+          {
+            "owner": "mission-designer",
+            "severity": "block",
+            "issue": "Checker 'seen': A6-enter finishes at 166 s, but the A5-loop-entrance blind only starts when the Loop finishes (120+62 = 182 s). So the entrance camera is live when the Enter finishes. The note's claim 'blind 120–182' is wrong: a blind runs from the end of the step, not its start.",
+            "fix": "Swap the Tech's two steps. A5 Loop: start_s 36 (the 35.6 s walk to control-cabinet), end 98, after null. A3 Reroute: start_s 98, end 108, after A5-loop-entrance. It is at the same place, so the Loop tether holds. The patrol is then blind 108–223 s and the camera from 98 s onward, which covers the Enter at 166. Correct both notes."
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "block",
+            "issue": "Checker 'meet' and 'timing' on B5-take-vale. The schedule puts Vale at office-north at 350 s. B5 also ends at 388 s, after its 'before' anchor e370-vale-at-car (370 s).",
+            "fix": "Once the schedule-designer adds the service-lane variants (next revision), set B5 after = e350-vale-exit-service and before = e480-close. On this route Vale waits at the moved car in the service lane until the escort clears the route, so a Take from 350 to 388 s fits. Keep start_s 350 and duration_s 38. Update the summary's spare time."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "block",
+            "issue": "Route B relies on Vale leaving by the service-lane door, but no event provides it. e350-vale-exit and e370-vale-at-car are unconditional and place Vale at office-north and official-dropoff. The driver's whenTurned act has no schedule event that opens the window B5 uses. Unknown = reject.",
+            "fix": "Split each event in two. e350-vale-exit stays (where office-north, needs: driver not cued by e340). Add e350-vale-exit-service (at_s 350, where service-lane, needs: driver turned and cued by e340). Do the same for e370: add e370-vale-at-car-service with where service-lane. Also add e340-car-moved (actor driver, where service-lane, needs: cued)."
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "block",
+            "issue": "L-guard-down: L2-loop-entrance finishes at 174 s, but L5-enter finishes at 171 s, so the camera is still live. Under the checker's own blind rule this is fail F4, 'entry seen'. Code doesn't catch it because the checker only runs 'seen' on quiet routes, but §07 F4 applies to every route. The route can't be played as written.",
+            "fix": "L2 Loop: start_s 36, end 98, after null. L1 Reroute: start_s 98, end 108, after L2-loop-entrance. This blinds the patrol 108–223 s, which covers the shots at 121–133 s, the 30 m gunfire break and the Enter at 171. The camera is blind from 98 s, so the shots are also off camera. Correct both notes."
+          },
+          {
+            "owner": "systems-designer",
+            "severity": "block",
+            "issue": "The service-lane door is an unwatched way in. A7 and B5 both state that no watcher covers service-lane, and it is tagged 'entrance'. That allows a route the checker would pass: Enforcer walks there (52 s), Enter 38 s, Take 38 s, done by about 128 s, at $0 / 0 T / A 0 with no contacts. That makes Inez, the driver and the guard pointless. It breaks 'subvert people' and 'preparation > improvisation', and it contradicts the brief ('Inez is one way to the guard… taking out the guard is the hard way').",
+            "fix": "Make it a rule in the cast or rules: the service-lane door is exit-only (push-bar, locked from outside). It opens from outside only for Vale when a cued driver has brought the car round (e340-car-moved). Enter at service-lane is then rejected. A7's exit and B5's Take at the door both still hold."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "block",
+            "issue": "The fight always happens, but on quiet routes no event triggers it. In A, Vale is aboard at about 256 s while the rivals sit at the kerb waiting until 480 s. In B, the rivals are away until 466 s and the Enforcer reaches the car at about 440 s. The rivals' plan only defines gunfire (+16 s) and 480 s. The quiet fight in mission.fight therefore relies on a trigger no event provides, and the win ('before e480') may fall in the middle of the fight.",
+            "fix": "Add to rivals.plan and the events a deterministic ambush trigger. For example: 'Take completes → rivals reach getaway-bay 30 s later (or on return from the false tip, whichever is later)', with the 30–60 s fight resolved before 480 s. The mission-designer then words the win as 'Vale alive aboard at getaway-bay after the fight, Enforcer standing, before e480-close'."
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "note",
+            "issue": "A2-help-inez (69–119 s) overlaps the office guard's coffee at cafe-courtyard (e000, until he leaves at about 86 s). Help is a traceable act (+1 T) and the guard reports what he sees within 13 m (Alert +1). That gives a real total of about 2 T / A 1, not 1 T / A 0. It would also tip off the man Inez later calls away.",
+            "fix": "Once the schedule pins the guard's departure (see the schedule note), start A2 after he leaves, or meet Inez at behind-cafe. If A2 then runs past 120 s, shift A4/A6/A7 by the same amount. The patrol blind (to 223 s after the Tech fix) still covers an Enter ending by about 220 s."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "note",
+            "issue": "e000-guard-coffee says 'walks to his post after (~34 s)' without a departure time. That makes his position from 0 to 120 s ambiguous for witness checks. police-response gives no arrival delay, so F5's seal time ('145 s after they arrive') is not a number and can't be replayed exactly.",
+            "fix": "Add e086-guard-leaves-cafe (or whatever the exact second is) with where cafe-courtyard → office-approach. Give police-response an arrival time, e.g. Alert-2 report + 30 s, so that the seal is at report + 175 s."
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "note",
+            "issue": "B2-help-driver happens at official-dropoff inside the live pickup-camera cone. Help is traceable (+1 T), so a recorded handover should add at least +1 T. Meanwhile the Tech does nothing in route B.",
+            "fix": "Have the Tech Loop the pickup camera before B2 (Loop 36–98, then B2 start_s 98, end 148, still before 190). Alternatively, if the cabinet doesn't control that camera, have the Fixer meet the driver at office-north, outside the cone."
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "note",
+            "issue": "A7's carry from service-lane to getaway-bay (62.5 m, about 204–256 s) is not a step, so no check covers it. The guard returns from behind-cafe at about 205–246 s along a line that passes within about 14 m of the carry at about 230 s.",
+            "fix": "Add the extraction as an explicit step, or a path with waypoints, so its timing and sightlines are checked. Otherwise route the carry south of the plaza, or finish the Take earlier."
+          },
+          {
+            "owner": "systems-designer",
+            "severity": "note",
+            "issue": "The driver's whenTurned says 'He sees only that he moved the car', but B5 takes Vale at that car in the service lane, right in front of him.",
+            "fix": "State that he witnesses the Take as an accomplice: no Alert, but he can identify the Enforcer. Add that to his Talker and debrief exposure."
+          },
+          {
+            "owner": "systems-designer",
+            "severity": "note",
+            "issue": "The purseLesson calls the Pay-Inez cell 'uninformed', but Pay requires routine (Watch 52 s). That is still a learn step, just a different fact.",
+            "fix": "Reword it: 'a cell that only Watches can Pay Inez ($70,000); only a cell that Listens can afford both'."
+          },
+          {
+            "owner": "dialogue-designer",
+            "severity": "note",
+            "issue": "The driver's 'questioned' line invents a delivery van that no event places. An investigator could disprove it easily, which undercuts the 'brave contacts give false leads' payoff.",
+            "fix": "Point the lie at something the schedule does provide: the rival car parked at the north kerb (e190). For example: 'Some car was sitting on the north pickup, so I brought him round the back.'"
+          }
+        ],
+        "summary": "Fail. The checker failed with 3 violations, all on mission-designer steps: B5 'timing', A6 'seen' and B5 'meet'. I found 3 more blocks:\n\n1. Route L has the same blind-ordering fault as A5. The checker misses it because it only runs 'seen' on quiet routes.\n2. The service-lane door is an open, unwatched entrance. That allows a $0, contact-free route that is better than every other route.\n3. On quiet routes nothing triggers the always-on rival fight.\n\nRoute B's meet fault starts in the schedule: the driver's act moves Vale's exit, but no event says so. The fix is service-lane variants of e350 and e370, conditioned on the driver being cued. My own follow-up (rulebook/checker): whereAt in spatial.ts must respect event 'needs' once these variants exist. Otherwise it will place Vale at both doors. Also, the 'seen' check should cover loud routes too, since F4 applies to all routes.\n\nPrices, the purse arithmetic, Alert-per-incident in L (2 then 0), contact essentiality and the dialogue coverage hold. No civilian is the payload: the driver blocking the rival car is an allowed citizen block."
+      }
+    },
+    {
+      "round": 1,
+      "checker": {
+        "pass": true,
+        "violations": [],
+        "routes": [
+          {
+            "id": "A-front-door",
+            "kind": "quiet",
+            "cost": 40000,
+            "trail": 1,
+            "alert": 0,
+            "finish_s": 204,
+            "contacts": [
+              "inez"
+            ]
+          },
+          {
+            "id": "B-service-lane",
+            "kind": "quiet",
+            "cost": 40000,
+            "trail": 1,
+            "alert": 0,
+            "finish_s": 388,
+            "contacts": [
+              "driver"
+            ]
+          },
+          {
+            "id": "L-guard-down",
+            "kind": "loud",
+            "cost": 0,
+            "trail": 4,
+            "alert": 2,
+            "finish_s": 209,
+            "contacts": []
+          }
+        ]
+      },
+      "verdict": {
+        "pass": false,
+        "revisions": [
+          {
+            "owner": "systems-designer",
+            "severity": "block",
+            "issue": "This revision introduced a fault. cast.target.routine now says the service-lane door 'opens only for Vale, from inside, after a cued driver has brought the car round (e340-car-moved)'. A7-take-vale (Take ends 204 s) and L6-take-vale (Take ends 209 s) both leave by that door. They do so long before e340-car-moved (340 s), and on routes where the driver is never cued. As written, the door stays shut, so routes A and L have no way out.",
+            "fix": "Reword the rule: 'Service-lane door is a push-bar exit. Anyone inside can open it from inside at any time. It is always locked from outside, so any Enter at service-lane is rejected. e340-car-moved only changes where Vale exits and where the car waits.' In driver.whenTurned, replace 'This is the only thing that opens that exit-only door, and only from inside for Vale' with 'This is what makes Vale use the service-lane exit'."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "block",
+            "issue": "The rule above is repeated in e340-car-moved.what: 'the only thing that opens the exit-only service-lane door (from inside, for Vale only…)'. That contradicts the A7 and L6 exits at 204 s and 209 s.",
+            "fix": "Change e340-car-moved.what to: '…brings the official car round to the service lane, outside both cameras' cones. Vale will exit by the service-lane push-bar door (exit-only; no Enter there).' Remove 'only thing that opens' and 'for Vale only'."
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "note",
+            "issue": "Last round's ambush block named two owners. The schedule-designer's half is done: e420-rivals-ambush fires at Take+30 s, the fight resolves by 480 s, and the timing holds (A: rivals 234 s, fight resolved by 294 s; B: rivals 418 s, fight resolved by 478 s). The mission-designer's half is not. mission.win still reads 'Vale alive at the getaway car before e480-close'. Route A's carry reaches the bay at about 256 s, after the rivals (234 s). Route B's reaches it at about 440 s, in the middle of the fight. So the win could be read as met before the fight is over.",
+            "fix": "Set win to: 'Vale alive aboard at getaway-bay after the extraction fight resolves (e420-rivals-ambush + 30–60 s), with the Enforcer standing, before e480-close.'"
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "note",
+            "issue": "e420-rivals-ambush's trigger is 'the spotter sees the Take'. The spotter has no place and is not among the layout's watchers. In route A the Take is interior (civic-office), and in B the service lane is unwatched. So the trigger relies on sight that no watcher provides.",
+            "fix": "Word it as a rule, not a sightline: 'when any Take completes at t, the rivals reach getaway-bay at t+30 s (latest 420 s)'. Drop 'sees', or give the spotter a place and an area in the layout."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "note",
+            "issue": "e480-close has where = official-dropoff even after e340-car-moved has put the car and Vale in the service lane. F1 (reachedBy e480-close) then places Vale at the wrong kerb on route B.",
+            "fix": "Add e480-close-service (at_s 480, where service-lane, needs: e340-car-moved). Alternatively, make e480-close where-independent and keep closingEventId pointing at the pair."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "note",
+            "issue": "Still open from last round: the guard's café departure time is not pinned ('~34 s'), and police-response has no arrival delay. So the F5 seal time in route L ('145 s after they arrive') can't be replayed as a number.",
+            "fix": "Add e0xx-guard-leaves-cafe at its exact second. Give the police an arrival time, e.g. Alert-2 report + 30 s, so the seal falls at report + 175 s (L: 121 + 175 = 296 s)."
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "note",
+            "issue": "Still open: A2-help-inez (69–119 s, at cafe-courtyard, +1 T) runs while the guard is still at his coffee there (e000). He reports what he witnesses within 13 m, so A 0 / 1 T is optimistic.",
+            "fix": "After the guard's departure second is pinned, start A2 then, or move A2 to behind-cafe. Shift A4, A6 and A7 by the same amount. The patrol blind (108–223 s) still covers an Enter that ends by 223 s."
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "note",
+            "issue": "Still open: the carry from service-lane to getaway-bay (A: about 204–256 s, B: about 388–440 s) is not a step, so no check covers its path or timing.",
+            "fix": "Add an explicit Carry/Extract step (Enforcer, from service-lane to getaway-bay, 52 s) so the checker covers its walk and watchers."
+          },
+          {
+            "owner": "systems-designer",
+            "severity": "note",
+            "issue": "Still open: driver.whenTurned says 'He sees only that he moved the car', yet B5 takes Vale at that car, in front of him. The purseLesson still calls the Pay-Inez cell 'uninformed', although Pay requires Watch (52 s).",
+            "fix": "Say that the driver witnesses the Take as an accomplice: no Alert, but he can identify the Enforcer (add this to Talker/debrief). Reword the purseLesson: 'a cell that only Watches can Pay Inez ($70,000); only a cell that Listens can afford both'."
+          },
+          {
+            "owner": "dialogue-designer",
+            "severity": "note",
+            "issue": "The driver's 'questioned' line ('north pickup was blocked… Check the logs') can be disproved on route B. B3 sends the rival car away at 236 s, so the pickup camera shows the kerb clear at 300–340 s.",
+            "fix": "Point it at the earlier rival car: 'A car had been sitting on the north kerb all afternoon, so I brought him round the back.' The pickup camera shows that car from 190 s."
+          }
+        ],
+        "summary": "Fail. All 6 earlier blocks are fixed, the checker passes, and its route totals match the summaries: A $40k / 1 T / A0 / Take done 204 s; B $40k / 1 T / A0 / Take done 388 s; L $0 / 4 T / A2 / Take done 209 s.\n\nEarlier blocks, confirmed fixed:\n- In A and L the Tech now Loops 36–98 s, then Reroutes 98–108 s.\n- B5 is anchored after e350-vale-exit-service and before e480-close.\n- The service-lane variant events now exist.\n- Enter at service-lane is ruled out.\n- The rival ambush now fires at a set time: Take + 30 s, with a Take due by 390 s.\n\nThe revision introduced one new fault, written in two places (cast and e340-car-moved). The door rule now says the service-lane door opens only for Vale, and only after e340-car-moved. That locks the exits A7 (204 s) and L6 (209 s) use, so neither route can be played as written. Fix: make it a push-bar exit anyone inside can open at any time, always locked from outside.\n\nStill holding: Alert counts once per incident in L (2, then 0), the purse arithmetic, contacts are needed on every quiet route, dialogue covers every situation, and no civilian is the payload.\n\nThe rest are notes, including earlier notes that are still open.\n\nMy own follow-ups (rulebook/checker):\n- e420's at_s is a latest time, not a fixed time; spatial.ts must handle it that way.\n- whereAt must respect `needs` now that the variant events exist.\n- The 'seen' check should also run on loud routes."
+      }
+    },
+    {
+      "round": 2,
+      "checker": {
+        "pass": true,
+        "violations": [],
+        "routes": [
+          {
+            "id": "A-front-door",
+            "kind": "quiet",
+            "cost": 40000,
+            "trail": 1,
+            "alert": 0,
+            "finish_s": 252,
+            "contacts": [
+              "inez"
+            ]
+          },
+          {
+            "id": "B-service-lane",
+            "kind": "quiet",
+            "cost": 40000,
+            "trail": 1,
+            "alert": 0,
+            "finish_s": 388,
+            "contacts": [
+              "driver"
+            ]
+          },
+          {
+            "id": "L-guard-down",
+            "kind": "loud",
+            "cost": 0,
+            "trail": 4,
+            "alert": 2,
+            "finish_s": 209,
+            "contacts": []
+          }
+        ]
+      },
+      "verdict": {
+        "pass": true,
+        "revisions": [
+          {
+            "owner": "mission-designer",
+            "severity": "note",
+            "issue": "Still open. mission.win still reads 'Vale alive at the getaway car (getaway-bay) before e480-close'. With the new times on route A, the Take ends at 252 s, the rivals reach the bay at 282 s, and the carry gets there at about 304 s, in the middle of the fight (which resolves 312–342 s). On route B the carry gets there at about 440 s, with the rivals already there at 418 s. So the win can be read as met before the fight is over.",
+            "fix": "Set win to: 'Vale alive aboard at getaway-bay after the extraction fight resolves (e420-rivals-ambush + 30–60 s), with the Enforcer standing, before e480-close.'"
+          },
+          {
+            "owner": "mission-designer",
+            "severity": "note",
+            "issue": "Still open. The carry from service-lane to getaway-bay is not a step. On route A it runs about 252–304 s and passes about 3 m from the office guard's post, inside his area, at about 266 s. He is away until about 296 s, so the margin is about 30 s, and no check covers it. On route B it runs about 388–440 s.",
+            "fix": "Add an A8/B6 Carry step: Enforcer, from service-lane to getaway-bay, 52 s, after the Take, so the checker covers the walk and the guard's return at about 296 s."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "note",
+            "issue": "Still open. e420-rivals-ambush.what still says 'the rivals' spotter sees the Take'. The spotter has no place and no area. The Take on route A is interior, and the service lane on route B is unwatched.",
+            "fix": "Change it to the rule already used in rivals.plan: 'when any Take completes at t, the rivals reach getaway-bay at t+30 s (latest 420 s)'. Drop 'sees'."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "note",
+            "issue": "Still open. e480-close has where = official-dropoff even after e340-car-moved has put Vale and the car in the service lane, so F1 places Vale at the wrong kerb on route B.",
+            "fix": "Add e480-close-service (at_s 480, where service-lane, needs: e340-car-moved), or make e480-close independent of place."
+          },
+          {
+            "owner": "schedule-designer",
+            "severity": "note",
+            "issue": "Still open. e000-guard-coffee still gives the guard's departure as '~34 s' with no exact second (from the walk it is about 86 s). police-response still has no arrival delay, so the seal time F5 uses on route L cannot be replayed as a number.",
+            "fix": "Add e086-guard-leaves-cafe. Give the police an arrival time of Alert-2 report + 30 s, so the seal falls at report + 175 s (on route L: 121 + 175 = 296 s)."
+          },
+          {
+            "owner": "systems-designer",
+            "severity": "note",
+            "issue": "Still open. driver.whenTurned says 'He sees only that he moved the car', yet B5 takes Vale at that car, in front of him. The purseLesson still calls the Pay-Inez cell 'uninformed', but Pay requires Watch (52 s).",
+            "fix": "Say that the driver witnesses the Take as an accomplice: no Alert, but he can identify the Enforcer at the debrief (Talker). Reword the purseLesson: 'a cell that only Watches can Pay Inez ($70,000); only a cell that Listens can afford both'."
+          },
+          {
+            "owner": "dialogue-designer",
+            "severity": "note",
+            "issue": "Still open. The driver's 'questioned' line ('north pickup was blocked… Check the logs') can be disproved on route B: B3 sends the rival car away at 236 s, so the pickup camera shows the kerb clear at 300–340 s.",
+            "fix": "Change it to: 'A car had been sitting on the north kerb all afternoon, so I brought him round the back.' The pickup camera shows that car from 190 s."
+          }
+        ],
+        "summary": "Pass. The checker passes with no violations, and both earlier blocks are fixed.\n\nEarlier blocks, confirmed fixed:\n- systems-designer: cast.target.routine now says the service-lane door is a push-bar exit. Anyone inside can open it at any time, it is always locked from outside, and e340-car-moved only changes where Vale exits and where the car waits. driver.whenTurned now says the move 'never lets anyone in'.\n- schedule-designer: e340-car-moved.what no longer says 'only thing that opens' or 'for Vale only'.\nSo the route A exit (A7 ends 252 s) and the route L exit (L6 ends 209 s) are valid again.\n\nThe revision also fixed one earlier note. A2-help-inez now waits for the guard to reach his post (e120) and runs 120–170 s. A4, A6 and A7 moved to fit:\n- A4: call 170–176 s; the guard is away until about 296 s.\n- A6: Enter ends 214 s, inside the patrol blind (108–223 s) and the loop (from 98 s).\n- A7: Take ends 252 s, with 228 s to spare.\nThe new times add no new fault: the ambush falls at 282 s, well inside the 420 s limit.\n\nRoute totals match the checker:\n- A: $40k, 1 T, Alert 0, Take done 252 s.\n- B: $40k, 1 T, Alert 0, Take done 388 s.\n- L: $0, 4 T, Alert 2, Take done 209 s.\n\nStill holding: Alert counts once per incident on route L, the purse arithmetic, every quiet route needs a contact, the dialogue covers every situation, and no civilian is the payload.\n\nSeven notes remain from earlier rounds, none blocking. They cover the win wording, the carry as a step, the spotter wording in e420, a service-lane version of e480, the guard's departure second and the police arrival time, the driver as a witness to the Take, and the driver's 'questioned' line.\n\nOne concern nobody raised: the route A carry passes through the office guard's area at about 266 s, and he returns at about 296 s. That margin of about 30 s is unchecked until the carry is a step.\n\nMy own follow-ups (rulebook/checker): treat e420's at_s as a latest time, make whereAt respect `needs`, and run the 'seen' check on loud routes too.\n\nNext: lead producer (accept). Owners can pick up the notes in the next pass."
+      }
+    }
+  ],
+  "usage": [
+    {
+      "agent": "systems-designer",
+      "seconds": 74,
+      "costUsd": 0.2031114,
+      "inputTokens": 38279,
+      "outputTokens": 4984
+    },
+    {
+      "agent": "dialogue-designer",
+      "seconds": 32,
+      "costUsd": 0.0782116,
+      "inputTokens": 8677,
+      "outputTokens": 1079
+    },
+    {
+      "agent": "schedule-designer",
+      "seconds": 79,
+      "costUsd": 0.2056806,
+      "inputTokens": 26418,
+      "outputTokens": 5093
+    },
+    {
+      "agent": "mission-designer",
+      "seconds": 269,
+      "costUsd": 0.6125964,
+      "inputTokens": 77913,
+      "outputTokens": 20839
+    },
+    {
+      "agent": "simulation-engineer",
+      "seconds": 238,
+      "costUsd": 0.6649539999999999,
+      "inputTokens": 116004,
+      "outputTokens": 18504
+    },
+    {
+      "agent": "systems-designer",
+      "seconds": 28,
+      "costUsd": 0.1310658,
+      "inputTokens": 13281,
+      "outputTokens": 2290
+    },
+    {
+      "agent": "dialogue-designer",
+      "seconds": 36,
+      "costUsd": 0.1062076,
+      "inputTokens": 10519,
+      "outputTokens": 1742
+    },
+    {
+      "agent": "schedule-designer",
+      "seconds": 52,
+      "costUsd": 0.1925726,
+      "inputTokens": 15177,
+      "outputTokens": 4394
+    },
+    {
+      "agent": "mission-designer",
+      "seconds": 63,
+      "costUsd": 0.28708880000000003,
+      "inputTokens": 22755,
+      "outputTokens": 6362
+    },
+    {
+      "agent": "simulation-engineer",
+      "seconds": 107,
+      "costUsd": 0.37998260000000006,
+      "inputTokens": 26181,
+      "outputTokens": 9320
+    },
+    {
+      "agent": "systems-designer",
+      "seconds": 30,
+      "costUsd": 0.1380778,
+      "inputTokens": 13575,
+      "outputTokens": 2523
+    },
+    {
+      "agent": "dialogue-designer",
+      "seconds": 20,
+      "costUsd": 0.09420360000000001,
+      "inputTokens": 10506,
+      "outputTokens": 1147
+    },
+    {
+      "agent": "schedule-designer",
+      "seconds": 31,
+      "costUsd": 0.1598486,
+      "inputTokens": 15699,
+      "outputTokens": 2549
+    },
+    {
+      "agent": "mission-designer",
+      "seconds": 134,
+      "costUsd": 0.4860304,
+      "inputTokens": 51584,
+      "outputTokens": 13244
+    },
+    {
+      "agent": "simulation-engineer",
+      "seconds": 78,
+      "costUsd": 0.30251059999999996,
+      "inputTokens": 25457,
+      "outputTokens": 5736
+    }
+  ],
+  "tokens": {
+    "byAgent": {
+      "systems-designer": {
+        "calls": 3,
+        "inputTokens": 65135,
+        "outputTokens": 9797,
+        "totalTokens": 74932,
+        "seconds": 132,
+        "costUsd": 0.4723
+      },
+      "dialogue-designer": {
+        "calls": 3,
+        "inputTokens": 29702,
+        "outputTokens": 3968,
+        "totalTokens": 33670,
+        "seconds": 88,
+        "costUsd": 0.2786
+      },
+      "schedule-designer": {
+        "calls": 3,
+        "inputTokens": 57294,
+        "outputTokens": 12036,
+        "totalTokens": 69330,
+        "seconds": 162,
+        "costUsd": 0.5581
+      },
+      "mission-designer": {
+        "calls": 3,
+        "inputTokens": 152252,
+        "outputTokens": 40445,
+        "totalTokens": 192697,
+        "seconds": 466,
+        "costUsd": 1.3857
+      },
+      "simulation-engineer": {
+        "calls": 3,
+        "inputTokens": 167642,
+        "outputTokens": 33560,
+        "totalTokens": 201202,
+        "seconds": 423,
+        "costUsd": 1.3475
+      }
+    },
+    "overall": {
+      "calls": 15,
+      "inputTokens": 472025,
+      "outputTokens": 99806,
+      "totalTokens": 571831,
+      "seconds": 1271,
+      "costUsd": 4.0422
+    }
+  }
+}

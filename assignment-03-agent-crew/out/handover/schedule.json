@@ -1,0 +1,153 @@
+{
+  "events": [
+    {
+      "id": "e000-vale-desk",
+      "at_s": 0,
+      "actor": "vale",
+      "what": "Vale at his desk countersigning the day's clearance files before shift handover; driver waits by the official car; cell at the getaway bay",
+      "where": "civic-office",
+      "blinds": null
+    },
+    {
+      "id": "e000-guard-coffee",
+      "at_s": 0,
+      "actor": "office-guard",
+      "what": "Office guard's pre-shift coffee at the café, served by Inez (the Scout can Watch the affair and Listen to her debt here); he walks to his post after (~34 s), so the office approach has no guard eyes until 120 s",
+      "where": "cafe-courtyard",
+      "blinds": "office-guard"
+    },
+    {
+      "id": "e120-guard-post",
+      "at_s": 120,
+      "actor": "office-guard",
+      "what": "Guard takes his post at the office approach for the afternoon shift. Inez's window opens: from now, on the Fixer's call, she can message him to meet behind the café (once, 120 s away)",
+      "where": "office-approach",
+      "blinds": null
+    },
+    {
+      "id": "e190-rivals-park",
+      "at_s": 190,
+      "actor": "rivals",
+      "what": "The pickup kerb's loading restriction lifts and the rival car parks near the official car, watching for Vale at handover; their spotter watches the block. Pressure on the pickup from now on",
+      "where": "official-dropoff",
+      "blinds": null
+    },
+    {
+      "id": "e300-cafe-rush",
+      "at_s": 300,
+      "actor": "inez",
+      "what": "The handover crowd fills the café; Inez is back on tables with no break until close. Last moment she can call the guard off his post (a call at 299 s keeps him away until ~419 s)",
+      "where": "cafe-courtyard",
+      "blinds": null
+    },
+    {
+      "id": "e330-handover-chime",
+      "at_s": 330,
+      "actor": "chime",
+      "what": "Shift handover chime: office staff change over and Vale packs his files to leave",
+      "where": "block",
+      "blinds": null
+    },
+    {
+      "id": "e340-driver-last",
+      "at_s": 340,
+      "actor": "driver",
+      "what": "Vale rings down to say he's coming; the driver opens the car at the north kerb. Last chance to turn the driver (Help) and cue him to move the car to the service lane",
+      "where": "official-dropoff",
+      "blinds": null
+    },
+    {
+      "id": "e340-car-moved",
+      "at_s": 340,
+      "actor": "driver",
+      "what": "Needs: driver turned (Help) and cued by the Fixer by 340 s. He tells Vale the north pickup is blocked and brings the official car round to the service lane, outside both cameras' cones. Vale will exit by the service-lane push-bar door (exit-only; no Enter there)",
+      "where": "service-lane",
+      "blinds": null
+    },
+    {
+      "id": "e350-vale-exit",
+      "at_s": 350,
+      "actor": "vale",
+      "what": "Needs: driver not cued by e340-car-moved. Vale leaves the office by the north door for the official car",
+      "where": "office-north",
+      "blinds": null
+    },
+    {
+      "id": "e350-vale-exit-service",
+      "at_s": 350,
+      "actor": "vale",
+      "what": "Needs: driver turned and cued (e340-car-moved). Vale pushes out through the service-lane door from inside to the waiting car; a Take at the door is valid",
+      "where": "service-lane",
+      "blinds": null
+    },
+    {
+      "id": "e370-vale-at-car",
+      "at_s": 370,
+      "actor": "vale",
+      "what": "Needs: driver not cued by e340-car-moved. Vale reaches the official car at the north kerb; the driver loads the sealed records boxes and waits for the escort's route clearance",
+      "where": "official-dropoff",
+      "blinds": null
+    },
+    {
+      "id": "e370-vale-at-car-service",
+      "at_s": 370,
+      "actor": "vale",
+      "what": "Needs: driver turned and cued (e340-car-moved). Vale at the official car in the service lane while the driver loads the sealed records boxes and waits for the escort's route clearance",
+      "where": "service-lane",
+      "blinds": null
+    },
+    {
+      "id": "e420-rivals-ambush",
+      "at_s": 420,
+      "actor": "rivals",
+      "what": "Needs: Vale taken. The rivals' spotter sees the Take and calls the crew (cutting any false tip short); they reach the getaway bay 30 s after the Take completes (Take at t → ambush at t+30), at the latest 420 s (so a Take must complete by 390 s). Firefight 30–60 s, resolved by 480 s. If no Take by 390 s, no ambush: they wait for Vale at the car (e480-close)",
+      "where": "getaway-bay",
+      "blinds": null
+    },
+    {
+      "id": "e480-close",
+      "at_s": 480,
+      "actor": "vale",
+      "what": "The escort clears the route: the official car leaves with Vale, or the rival crew takes him at the kerb. Mission over",
+      "where": "official-dropoff",
+      "blinds": null
+    }
+  ],
+  "closingEventId": "e480-close",
+  "security": [
+    {
+      "id": "office-guard",
+      "kind": "guard",
+      "behaviour": "Door routine: pre-shift café stop 0–120 s (blind 120 s), then holds his post at the office approach. Leaves for 120 s if Inez calls. Reports what he witnesses within 13 m (Alert +1); gunfire → Alert 2"
+    },
+    {
+      "id": "entrance-camera",
+      "kind": "camera",
+      "behaviour": "Fixed visible cone over the office approach; blocked by roofs and parked vehicles; a seen entry = fail unless the Tech has looped it (tethered at the control cabinet)"
+    },
+    {
+      "id": "pickup-camera",
+      "kind": "camera",
+      "behaviour": "Fixed visible cone over the north pickup and official car; does not cover the service lane; blocked by parked vehicles"
+    },
+    {
+      "id": "patrol-bot",
+      "kind": "patrol",
+      "behaviour": "Sweeps the office approach on a 100 s period with a gap at 33–67 s; tightens at Alert 1; breaks toward gunfire within 30 m unless the Tech has rerouted it (Reroute, blind 115 s)"
+    },
+    {
+      "id": "fountain-guard",
+      "kind": "guard",
+      "behaviour": "Holds the plaza between the getaway bay and the café; reports witnessed traceable acts within 13 m; crowds block his sightline"
+    },
+    {
+      "id": "police-response",
+      "kind": "response",
+      "behaviour": "On report at Alert 2 (2nd incident or any gunfire): 2–4 officers close from the west street toward the reported route; the district seals 145 s after they arrive (Alert 3 = lockdown, doors lock)"
+    }
+  ],
+  "rivals": {
+    "arrive_s": 190,
+    "plan": "Park near the official car at the pickup kerb (190 s), with a spotter watching the block, and wait for Vale to come out at handover. A Scout false tip sends them away for up to 230 s. Ambush trigger (deterministic): when a Take completes at t, the spotter calls them (cutting any false tip short) and they reach getaway-bay at t+30 s, latest 420 s (e420-rivals-ambush); a Take must complete by 390 s. The firefight lasts 30–60 s with 3–5 of them and resolves by 480 s. Gunfire anywhere on the block before the Take brings them in within 16 s. No Take by 390 s: they take Vale at the car at 480 s (e480-close). Loud (a shot, a guard killed, or Alert ≥ 2): security and the police from the west street side with them. Quiet (Alert ≤ 1): the guard, and the people you turned, fight them with you; a helped Inez warns 10 s early, a turned driver blocks the rival car (−1 rival), and an earlier false tip removes another (−1 rival)."
+  }
+}

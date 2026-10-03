@@ -1,0 +1,1142 @@
+{
+  "accepted": true,
+  "brief": {
+    "id": "handover",
+    "district": "Civic Records block, the marked block",
+    "objective": "kidnapping",
+    "target": {
+      "name": "Councillor Vale",
+      "role": "signed the clearance order for the marked block; at shift handover he leaves the Civic Records Office for his official car"
+    },
+    "closingEvent": {
+      "label": "rivals take Vale or the official car leaves",
+      "at_s": 480
+    },
+    "fightTrigger": "always: the rival crew arrives and the mission ends in a firefight with them. Who sides with whom depends on how you played: loud (a guard killed, any shot, or Alert ≥ 2 — security sees you as the threat) → security helps the rivals against you, police close from the west street; quiet (people suborned subtly, no shots, Alert ≤ 1) → security and the people you turned help you against the rivals.",
+    "purse": 100000,
+    "cell": [
+      "Scout",
+      "Fixer",
+      "Tech",
+      "Enforcer"
+    ],
+    "layout": "layouts/civic-district.json",
+    "notes": "Handover's template (GDD §07) on the capstone's civic block: take Vale alive to the getaway car. The block's residents (Vale, Inez, the driver, the rival crew) are in the layout; give them their needs, prices and acts, and write your own schedule and routes. Inez is one way to the guard, not the only one; Vale's driver is another. Taking out the guard is the hard way: shots bring the police from the west street, and the patrol bot breaks toward gunfire within 30 m unless the Tech has hacked it (Reroute) first. Or take him out while he is with Inez, away from the cameras and the bot: quieter, but she witnesses it, is lost as a contact and may betray the cell later (a debrief consequence, §08). GDD §07 is the quality bar, not a script: derive prices and acts from the §04 rules rather than copying §07's."
+  },
+  "layout": {
+    "id": "civic-district",
+    "source": "../../game-source/experiments/civic-2p5d/world-manifest.json",
+    "units": "m",
+    "walk_mps": 1.2,
+    "crew_start": "getaway-bay",
+    "places": [
+      {
+        "id": "cafe-courtyard",
+        "xy": [
+          0.1,
+          -1.5
+        ],
+        "tags": [
+          "meet",
+          "sit"
+        ]
+      },
+      {
+        "id": "cafe-door",
+        "xy": [
+          -1,
+          1.4
+        ],
+        "tags": [
+          "work"
+        ]
+      },
+      {
+        "id": "behind-cafe",
+        "xy": [
+          -2,
+          8.5
+        ],
+        "tags": [
+          "meet",
+          "deliver"
+        ]
+      },
+      {
+        "id": "cafe-steps",
+        "xy": [
+          -1,
+          -7.3
+        ],
+        "tags": [
+          "wait",
+          "watch"
+        ]
+      },
+      {
+        "id": "fountain",
+        "xy": [
+          -1,
+          -23
+        ],
+        "tags": [
+          "meet",
+          "wait"
+        ]
+      },
+      {
+        "id": "plaza-east",
+        "xy": [
+          3.5,
+          -18.5
+        ],
+        "tags": [
+          "watch"
+        ]
+      },
+      {
+        "id": "plaza-west",
+        "xy": [
+          -5.5,
+          -18.5
+        ],
+        "tags": [
+          "watch"
+        ]
+      },
+      {
+        "id": "getaway-bay",
+        "xy": [
+          -8.5,
+          -37.8
+        ],
+        "tags": [
+          "getaway",
+          "vehicle"
+        ]
+      },
+      {
+        "id": "official-dropoff",
+        "xy": [
+          37.5,
+          9
+        ],
+        "tags": [
+          "pickup",
+          "vehicle"
+        ]
+      },
+      {
+        "id": "office-north",
+        "xy": [
+          31.2,
+          -2.7
+        ],
+        "tags": [
+          "entrance"
+        ]
+      },
+      {
+        "id": "office-approach",
+        "xy": [
+          37,
+          -25.5
+        ],
+        "tags": [
+          "entrance"
+        ]
+      },
+      {
+        "id": "service-lane",
+        "xy": [
+          49.7,
+          -15
+        ],
+        "tags": [
+          "entrance",
+          "deliver"
+        ]
+      },
+      {
+        "id": "civic-office",
+        "xy": [
+          36.5,
+          -13.5
+        ],
+        "tags": [
+          "interior",
+          "target"
+        ]
+      },
+      {
+        "id": "south-walkway",
+        "xy": [
+          34,
+          -40.5
+        ],
+        "tags": [
+          "wait",
+          "watch"
+        ]
+      },
+      {
+        "id": "control-cabinet",
+        "xy": [
+          34,
+          -41.7
+        ],
+        "tags": [
+          "device"
+        ]
+      }
+    ],
+    "watchers": [
+      {
+        "id": "entrance-camera",
+        "kind": "camera",
+        "post": [
+          45,
+          -22
+        ],
+        "area": [
+          [
+            45,
+            -22
+          ],
+          [
+            26,
+            -27
+          ],
+          [
+            38,
+            -36
+          ]
+        ],
+        "blind_s": null,
+        "sweep": null
+      },
+      {
+        "id": "pickup-camera",
+        "kind": "camera",
+        "post": [
+          43.5,
+          12.5
+        ],
+        "area": [
+          [
+            43.5,
+            12.5
+          ],
+          [
+            29,
+            6
+          ],
+          [
+            38,
+            1
+          ]
+        ],
+        "blind_s": null,
+        "sweep": null
+      },
+      {
+        "id": "office-guard",
+        "kind": "guard",
+        "post": [
+          34,
+          -24.4
+        ],
+        "area": [
+          [
+            42,
+            -24.4
+          ],
+          [
+            39.7,
+            -18.7
+          ],
+          [
+            34,
+            -16.4
+          ],
+          [
+            28.3,
+            -18.7
+          ],
+          [
+            26,
+            -24.4
+          ],
+          [
+            28.3,
+            -30.1
+          ],
+          [
+            34,
+            -32.4
+          ],
+          [
+            39.7,
+            -30.1
+          ]
+        ],
+        "blind_s": 120,
+        "sweep": null
+      },
+      {
+        "id": "patrol-bot",
+        "kind": "patrol",
+        "post": [
+          40,
+          -28
+        ],
+        "area": [
+          [
+            28,
+            -32
+          ],
+          [
+            46,
+            -32
+          ],
+          [
+            46,
+            -24
+          ],
+          [
+            28,
+            -24
+          ]
+        ],
+        "blind_s": 115,
+        "sweep": {
+          "period_s": 100,
+          "gap": [
+            33,
+            67
+          ]
+        }
+      },
+      {
+        "id": "fountain-guard",
+        "kind": "guard",
+        "post": [
+          -1,
+          -18.5
+        ],
+        "area": [
+          [
+            13,
+            -18.5
+          ],
+          [
+            8.9,
+            -8.6
+          ],
+          [
+            -1,
+            -4.5
+          ],
+          [
+            -10.9,
+            -8.6
+          ],
+          [
+            -15,
+            -18.5
+          ],
+          [
+            -10.9,
+            -28.4
+          ],
+          [
+            -1,
+            -32.5
+          ],
+          [
+            8.9,
+            -28.4
+          ]
+        ],
+        "blind_s": 60,
+        "sweep": null
+      }
+    ],
+    "residents": [
+      {
+        "id": "vale",
+        "name": "Vale",
+        "role": "target",
+        "place": "civic-office",
+        "job": "councillor",
+        "canon": "the kidnap target; inside the civic office until he leaves for his official car"
+      },
+      {
+        "id": "inez",
+        "name": "Inez",
+        "role": "contact",
+        "place": "cafe-courtyard",
+        "job": "café waitress",
+        "canon": "having an affair with the office guard; the Scout learns it by listening in at the café, and she can draw him off his post. One way in, not the only one: you can avoid her by taking out the guard or by suborning Vale's driver. If the guard is taken out while he is with her (away from the cameras and the patrol bot), she witnesses it: she is lost as a contact and may betray the cell later"
+      },
+      {
+        "id": "driver",
+        "name": "Driver",
+        "role": "contact",
+        "place": "official-dropoff",
+        "job": "councillor's driver, at the official car",
+        "canon": "waits at the official car to drive Vale away"
+      },
+      {
+        "id": "rivals",
+        "name": "Rival crew",
+        "role": "rivals",
+        "place": "official-dropoff",
+        "job": "rival faction",
+        "canon": "not on the block at the start; arrives after a set time to put pressure on, and the mission ends in a firefight with them"
+      }
+    ],
+    "notes": "Rivals, cameras and the patrol sweep are not in the manifest yet; authored here from the prototype (suborned-world-sim.js) until they are. Remove each entry once the manifest carries it."
+  },
+  "cast": {
+    "target": {
+      "id": "vale",
+      "name": "Vale",
+      "role": "Councillor; signed the clearance order for the marked block. Kidnap target: must be taken alive to the getaway car.",
+      "routine": "Stays inside the civic office until shift handover. Then leaves by office-north and walks about 13 m to his official car at official-dropoff. If the driver is turned, he leaves by the service-lane door instead. The schedule designer sets the times; the closing event is at 480 s. Rule: Service-lane door is a push-bar exit. Anyone inside can open it from inside at any time. It is always locked from outside, so any Enter at service-lane is rejected. e340-car-moved only changes where Vale exits and where the car waits.",
+      "place": "civic-office"
+    },
+    "people": [
+      {
+        "id": "inez",
+        "name": "Inez",
+        "occupation": "café waitress",
+        "temperament": "Mercenary",
+        "need": "Owes a $40,000 loan to a moneylender who takes her wages each week. The cell can clear it with cash.",
+        "routine": "Works tables in the café courtyard. Takes breaks behind the café, the spot where she meets the office guard. The guard stops at the café before his shift (§05).",
+        "place": "cafe-courtyard",
+        "learn": [
+          {
+            "fact": "routine",
+            "verb": "Watch",
+            "time_s": 52
+          },
+          {
+            "fact": "need",
+            "verb": "Listen",
+            "time_s": 42
+          }
+        ],
+        "approaches": [
+          {
+            "kind": "Ask",
+            "requires": "none",
+            "cost": 0,
+            "time_s": 25,
+            "trail": 1,
+            "leaves": "Remembered refusal: every later offer costs +$10,000 and +1 T"
+          },
+          {
+            "kind": "Pay",
+            "requires": "routine",
+            "cost": 70000,
+            "time_s": 50,
+            "trail": 2,
+            "leaves": "Traceable payment, so she stays neutral. As a Mercenary she will sell the cell to a higher bidder if the rivals outbid you (Menace standing: discount, betrayal risk)"
+          },
+          {
+            "kind": "Help",
+            "requires": "need",
+            "cost": 40000,
+            "time_s": 50,
+            "trail": 1,
+            "leaves": "Debt cleared, so she is grateful. Bravery +1 step for each job she finishes unexposed. Counts toward Talker as bravery: if questioned she lies or gives a false lead"
+          },
+          {
+            "kind": "Pressure",
+            "requires": "need",
+            "cost": 0,
+            "time_s": 35,
+            "trail": 3,
+            "leaves": "Fear, and resentment +1 step. She can identify the Fixer, so there is Talker risk at the debrief (§08: Inez may identify Fixer)"
+          }
+        ],
+        "whenTurned": "On the Fixer's call, at any time while the guard is on post (once per mission), she messages him to meet her behind the café. He leaves his post at the office approach and is gone 120 s: about 41 s walking each way (48.8 m at 1.2 m/s) and 38 s with her. That leaves the office approach with no guard eyes. Only the entrance camera and the patrol bot still watch it. She sees only that he came to her. If the guard is taken down while he is with her, she witnesses it: she is lost as a contact and becomes a debrief betrayal risk (canon)."
+      },
+      {
+        "id": "driver",
+        "name": "Driver",
+        "occupation": "councillor's driver, at the official car",
+        "temperament": "Idealist",
+        "need": "His sister's family is being evicted under Vale's clearance order. They need a $40,000 deposit on a new flat. The cell can pay it in cash.",
+        "routine": "Waits beside the official car at official-dropoff, inside the pickup camera's view. He takes calls from his sister by the car. At handover he opens the car for Vale.",
+        "place": "official-dropoff",
+        "learn": [
+          {
+            "fact": "routine",
+            "verb": "Watch",
+            "time_s": 48
+          },
+          {
+            "fact": "need",
+            "verb": "Listen",
+            "time_s": 46
+          }
+        ],
+        "approaches": [
+          {
+            "kind": "Ask",
+            "requires": "none",
+            "cost": 0,
+            "time_s": 25,
+            "trail": 1,
+            "leaves": "Refuses at neutral standing (Idealist; at Hero standing he would volunteer for free). Remembered refusal: later offers +$10,000 and +1 T"
+          },
+          {
+            "kind": "Help",
+            "requires": "need",
+            "cost": 40000,
+            "time_s": 50,
+            "trail": 1,
+            "leaves": "Deposit paid, so he is grateful. Bravery grows fast (Idealist): +1 step for each job he finishes unexposed. Counts toward Talker as bravery: if questioned he lies or gives a false lead"
+          }
+        ],
+        "whenTurned": "On cue, before Vale leaves the office (the schedule designer sets the last moment to turn him), he tells Vale the north pickup is blocked and moves the official car to the service lane (e340-car-moved). Vale then leaves by the service-lane door, not office-north. This is what makes Vale use the service-lane exit; it never lets anyone in. The pickup point is now outside both cameras' cones. He sees only that he moved the car."
+      }
+    ],
+    "purseLesson": "The purse is $100,000. Both turns rely on the driver's Help at $40,000: as an Idealist he refuses bribes and folds under no threat, so he can only be turned once the Scout learns his need (Listen 46 s). Without that learning, the cell can only Pay Inez ($70,000), and adding the driver costs $70,000 + $40,000 = $110,000, which exceeds $100,000. So the uninformed cell gets one route, not both. The informed cell has the Scout learn her need (Listen 42 s) and Helps her: $40,000 + $40,000 = $80,000, which fits and leaves $20,000 spare. Learning buys the second route. Pressuring Inez ($0 + $40,000 = $40,000) also fits but costs 3 T on Inez's turn, not 1, plus resentment and the risk she identifies the Fixer. Cheap in cash, dear in Trail. If the cell Asks either contact cold first and is refused, that contact costs +$10,000 more: informed totals become $90,000 for one refusal and $100,000 for two, which still fits. Paying Inez after a refusal costs $80,000, and with the driver $120,000, which is still over."
+  },
+  "schedule": {
+    "events": [
+      {
+        "id": "e000-vale-desk",
+        "at_s": 0,
+        "actor": "vale",
+        "what": "Vale at his desk countersigning the day's clearance files before shift handover; driver waits by the official car; cell at the getaway bay",
+        "where": "civic-office",
+        "blinds": null
+      },
+      {
+        "id": "e000-guard-coffee",
+        "at_s": 0,
+        "actor": "office-guard",
+        "what": "Office guard's pre-shift coffee at the café, served by Inez (the Scout can Watch the affair and Listen to her debt here); he walks to his post after (~34 s), so the office approach has no guard eyes until 120 s",
+        "where": "cafe-courtyard",
+        "blinds": "office-guard"
+      },
+      {
+        "id": "e120-guard-post",
+        "at_s": 120,
+        "actor": "office-guard",
+        "what": "Guard takes his post at the office approach for the afternoon shift. Inez's window opens: from now, on the Fixer's call, she can message him to meet behind the café (once, 120 s away)",
+        "where": "office-approach",
+        "blinds": null
+      },
+      {
+        "id": "e190-rivals-park",
+        "at_s": 190,
+        "actor": "rivals",
+        "what": "The pickup kerb's loading restriction lifts and the rival car parks near the official car, watching for Vale at handover; their spotter watches the block. Pressure on the pickup from now on",
+        "where": "official-dropoff",
+        "blinds": null
+      },
+      {
+        "id": "e300-cafe-rush",
+        "at_s": 300,
+        "actor": "inez",
+        "what": "The handover crowd fills the café; Inez is back on tables with no break until close. Last moment she can call the guard off his post (a call at 299 s keeps him away until ~419 s)",
+        "where": "cafe-courtyard",
+        "blinds": null
+      },
+      {
+        "id": "e330-handover-chime",
+        "at_s": 330,
+        "actor": "chime",
+        "what": "Shift handover chime: office staff change over and Vale packs his files to leave",
+        "where": "block",
+        "blinds": null
+      },
+      {
+        "id": "e340-driver-last",
+        "at_s": 340,
+        "actor": "driver",
+        "what": "Vale rings down to say he's coming; the driver opens the car at the north kerb. Last chance to turn the driver (Help) and cue him to move the car to the service lane",
+        "where": "official-dropoff",
+        "blinds": null
+      },
+      {
+        "id": "e340-car-moved",
+        "at_s": 340,
+        "actor": "driver",
+        "what": "Needs: driver turned (Help) and cued by the Fixer by 340 s. He tells Vale the north pickup is blocked and brings the official car round to the service lane, outside both cameras' cones. Vale will exit by the service-lane push-bar door (exit-only; no Enter there)",
+        "where": "service-lane",
+        "blinds": null
+      },
+      {
+        "id": "e350-vale-exit",
+        "at_s": 350,
+        "actor": "vale",
+        "what": "Needs: driver not cued by e340-car-moved. Vale leaves the office by the north door for the official car",
+        "where": "office-north",
+        "blinds": null
+      },
+      {
+        "id": "e350-vale-exit-service",
+        "at_s": 350,
+        "actor": "vale",
+        "what": "Needs: driver turned and cued (e340-car-moved). Vale pushes out through the service-lane door from inside to the waiting car; a Take at the door is valid",
+        "where": "service-lane",
+        "blinds": null
+      },
+      {
+        "id": "e370-vale-at-car",
+        "at_s": 370,
+        "actor": "vale",
+        "what": "Needs: driver not cued by e340-car-moved. Vale reaches the official car at the north kerb; the driver loads the sealed records boxes and waits for the escort's route clearance",
+        "where": "official-dropoff",
+        "blinds": null
+      },
+      {
+        "id": "e370-vale-at-car-service",
+        "at_s": 370,
+        "actor": "vale",
+        "what": "Needs: driver turned and cued (e340-car-moved). Vale at the official car in the service lane while the driver loads the sealed records boxes and waits for the escort's route clearance",
+        "where": "service-lane",
+        "blinds": null
+      },
+      {
+        "id": "e420-rivals-ambush",
+        "at_s": 420,
+        "actor": "rivals",
+        "what": "Needs: Vale taken. The rivals' spotter sees the Take and calls the crew (cutting any false tip short); they reach the getaway bay 30 s after the Take completes (Take at t → ambush at t+30), at the latest 420 s (so a Take must complete by 390 s). Firefight 30–60 s, resolved by 480 s. If no Take by 390 s, no ambush: they wait for Vale at the car (e480-close)",
+        "where": "getaway-bay",
+        "blinds": null
+      },
+      {
+        "id": "e480-close",
+        "at_s": 480,
+        "actor": "vale",
+        "what": "The escort clears the route: the official car leaves with Vale, or the rival crew takes him at the kerb. Mission over",
+        "where": "official-dropoff",
+        "blinds": null
+      }
+    ],
+    "closingEventId": "e480-close",
+    "security": [
+      {
+        "id": "office-guard",
+        "kind": "guard",
+        "behaviour": "Door routine: pre-shift café stop 0–120 s (blind 120 s), then holds his post at the office approach. Leaves for 120 s if Inez calls. Reports what he witnesses within 13 m (Alert +1); gunfire → Alert 2"
+      },
+      {
+        "id": "entrance-camera",
+        "kind": "camera",
+        "behaviour": "Fixed visible cone over the office approach; blocked by roofs and parked vehicles; a seen entry = fail unless the Tech has looped it (tethered at the control cabinet)"
+      },
+      {
+        "id": "pickup-camera",
+        "kind": "camera",
+        "behaviour": "Fixed visible cone over the north pickup and official car; does not cover the service lane; blocked by parked vehicles"
+      },
+      {
+        "id": "patrol-bot",
+        "kind": "patrol",
+        "behaviour": "Sweeps the office approach on a 100 s period with a gap at 33–67 s; tightens at Alert 1; breaks toward gunfire within 30 m unless the Tech has rerouted it (Reroute, blind 115 s)"
+      },
+      {
+        "id": "fountain-guard",
+        "kind": "guard",
+        "behaviour": "Holds the plaza between the getaway bay and the café; reports witnessed traceable acts within 13 m; crowds block his sightline"
+      },
+      {
+        "id": "police-response",
+        "kind": "response",
+        "behaviour": "On report at Alert 2 (2nd incident or any gunfire): 2–4 officers close from the west street toward the reported route; the district seals 145 s after they arrive (Alert 3 = lockdown, doors lock)"
+      }
+    ],
+    "rivals": {
+      "arrive_s": 190,
+      "plan": "Park near the official car at the pickup kerb (190 s), with a spotter watching the block, and wait for Vale to come out at handover. A Scout false tip sends them away for up to 230 s. Ambush trigger (deterministic): when a Take completes at t, the spotter calls them (cutting any false tip short) and they reach getaway-bay at t+30 s, latest 420 s (e420-rivals-ambush); a Take must complete by 390 s. The firefight lasts 30–60 s with 3–5 of them and resolves by 480 s. Gunfire anywhere on the block before the Take brings them in within 16 s. No Take by 390 s: they take Vale at the car at 480 s (e480-close). Loud (a shot, a guard killed, or Alert ≥ 2): security and the police from the west street side with them. Quiet (Alert ≤ 1): the guard, and the people you turned, fight them with you; a helped Inez warns 10 s early, a turned driver blocks the rival car (−1 rival), and an earlier false tip removes another (−1 rival)."
+    }
+  },
+  "mission": {
+    "title": "Handover: Councillor Vale, Civic Records block",
+    "routes": [
+      {
+        "id": "A-front-door",
+        "kind": "quiet",
+        "summary": "Front door via Inez. Scout listens for Inez's debt → once the guard has left the café for his post, Fixer clears her debt (Help $40,000) → Tech loops the entrance camera, then reroutes the patrol → Fixer calls Inez, who draws the guard behind the café → Enforcer enters at 2:56 and takes Vale at his desk. Out by the service door, which no watcher covers. $40,000 · 1 T · A 0 · Take done 4:12 (228 s spare).",
+        "steps": [
+          {
+            "id": "A1-listen-inez",
+            "op": "Scout",
+            "verb": "Listen",
+            "target": "inez",
+            "place": "cafe-steps",
+            "blinds": null,
+            "approach": null,
+            "start_s": 27,
+            "duration_s": 42,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "e000-guard-coffee",
+            "before": null,
+            "note": "Walk getaway-bay→cafe-steps 31.4 m = 26.2 s. 5.9 m from Inez at cafe-courtyard. Learns her need ($40,000 moneylender debt) and the affair while the guard is on his coffee."
+          },
+          {
+            "id": "A2-help-inez",
+            "op": "Fixer",
+            "verb": "Turn",
+            "target": "inez",
+            "place": "cafe-courtyard",
+            "blinds": null,
+            "approach": "Help",
+            "start_s": 120,
+            "duration_s": 50,
+            "cost": 40000,
+            "trail": 1,
+            "alert": 0,
+            "after": "e120-guard-post",
+            "before": "A4-call-inez",
+            "note": "Walk getaway-bay→cafe-courtyard 37.3 m = 31.1 s. Waits until the guard is on post at the office approach (e120), so he never sees the Fixer clear his lover's debt. Clears her debt, so she is grateful and bravery can grow. Outside the fountain guard's area (17 m from his post)."
+          },
+          {
+            "id": "A3-reroute-bot",
+            "op": "Tech",
+            "verb": "Reroute",
+            "target": "patrol-bot",
+            "place": "control-cabinet",
+            "blinds": "patrol-bot",
+            "approach": null,
+            "start_s": 98,
+            "duration_s": 10,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "A5-loop-entrance",
+            "before": "A6-enter",
+            "note": "Same place as the Loop (control-cabinet), so the Loop tether holds. Blind runs from the end of the step: patrol blind 108–223 s, which covers the Enter completing at 214 s."
+          },
+          {
+            "id": "A4-call-inez",
+            "op": "Fixer",
+            "verb": "Call",
+            "target": "inez",
+            "place": "cafe-courtyard",
+            "blinds": "office-guard",
+            "approach": null,
+            "start_s": 170,
+            "duration_s": 6,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "A2-help-inez",
+            "before": "e300-cafe-rush",
+            "note": "Inez's one message, while the guard is on post: he leaves it to meet her behind the café, away for 120 s (until about 290–296 s). She sees only that he came to her."
+          },
+          {
+            "id": "A5-loop-entrance",
+            "op": "Tech",
+            "verb": "Loop",
+            "target": "entrance-camera",
+            "place": "control-cabinet",
+            "blinds": "entrance-camera",
+            "approach": null,
+            "start_s": 36,
+            "duration_s": 62,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": null,
+            "before": null,
+            "note": "Walk getaway-bay→control-cabinet 42.7 m = 35.6 s. Blind runs from the end of the step: tethered at the cabinet, the camera is blind from 98 s onward while the Tech holds, which covers the Enter completing at 214 s."
+          },
+          {
+            "id": "A6-enter",
+            "op": "Enforcer",
+            "verb": "Enter",
+            "target": "civic-office",
+            "place": "office-approach",
+            "blinds": null,
+            "approach": null,
+            "start_s": 176,
+            "duration_s": 38,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "A4-call-inez",
+            "before": "e330-handover-chime",
+            "note": "Walk getaway-bay→office-approach 47.1 m = 39.3 s. Completes at 214 s. office-approach lies inside all three watcher areas: entrance-camera (looped by A5), office-guard (away, A4) and patrol-bot (rerouted by A3, 108–223 s)."
+          },
+          {
+            "id": "A7-take-vale",
+            "op": "Enforcer",
+            "verb": "Take",
+            "target": "vale",
+            "place": "civic-office",
+            "blinds": null,
+            "approach": null,
+            "start_s": 214,
+            "duration_s": 38,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "A6-enter",
+            "before": "e330-handover-chime",
+            "note": "Vale is at his desk (e000) until 350 s. Interior, so no walk and no watchers. Out by the service-lane push-bar door from inside (no watcher covers it) to the getaway car, 62.5 m = 52 s: aboard by about 304 s, after the guard returns (about 296 s) to the approach, which the cell no longer uses."
+          }
+        ]
+      },
+      {
+        "id": "B-service-lane",
+        "kind": "quiet",
+        "summary": "Pickup via the driver, with no Inez. Scout listens for the driver's need → Fixer pays his sister's deposit (Help $40,000) → Scout's false tip sends the parked rivals away → Fixer cues the driver, who moves the car to the service lane → Enforcer takes Vale at the moved car in the service lane, where he waits until the escort clears the route (no watcher covers it). $40,000 · 1 T · A 0 · Take done 6:28: 92 s before closing (8:00), and 2 s inside the 390 s ambush limit (rivals reach the bay at 418 s, fight resolved by 478 s).",
+        "steps": [
+          {
+            "id": "B1-listen-driver",
+            "op": "Scout",
+            "verb": "Listen",
+            "target": "driver",
+            "place": "office-north",
+            "blinds": null,
+            "approach": null,
+            "start_s": 45,
+            "duration_s": 46,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": null,
+            "before": null,
+            "note": "Walk getaway-bay→office-north 53.0 m = 44.2 s. 13.3 m from the driver at official-dropoff, outside the pickup camera. Overhears his sister's eviction call: the $40,000 deposit."
+          },
+          {
+            "id": "B2-help-driver",
+            "op": "Fixer",
+            "verb": "Turn",
+            "target": "driver",
+            "place": "official-dropoff",
+            "blinds": null,
+            "approach": "Help",
+            "start_s": 91,
+            "duration_s": 50,
+            "cost": 40000,
+            "trail": 1,
+            "alert": 0,
+            "after": "B1-listen-driver",
+            "before": "e340-driver-last",
+            "note": "Walk getaway-bay→official-dropoff 65.6 m = 54.7 s. He is an Idealist: Help is his only paid approach, so the Listen is required. Done before the rivals park (190 s)."
+          },
+          {
+            "id": "B3-mislead-rivals",
+            "op": "Scout",
+            "verb": "Mislead",
+            "target": "rivals",
+            "place": "office-north",
+            "blinds": null,
+            "approach": null,
+            "start_s": 192,
+            "duration_s": 44,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "e190-rivals-park",
+            "before": "e350-vale-exit",
+            "note": "False tip to the rival car parked 13.3 m away: they leave for up to 230 s (until about 466 s), so they are gone through the car move and the Take; the spotter's call at the Take cuts it short and they come back only for the extraction fight with one rival fewer."
+          },
+          {
+            "id": "B4-call-driver",
+            "op": "Fixer",
+            "verb": "Call",
+            "target": "driver",
+            "place": "getaway-bay",
+            "blinds": null,
+            "approach": null,
+            "start_s": 300,
+            "duration_s": 6,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "B2-help-driver",
+            "before": "e340-driver-last",
+            "note": "Walk official-dropoff→getaway-bay 65.6 m = 54.7 s (arrives about 196 s). The cue: the driver tells Vale the north pickup is blocked and moves the car to the service lane (e340-car-moved). Vale will now exit by the service-lane door at 350 s. The Fixer waits at the car for the fight."
+          },
+          {
+            "id": "B5-take-vale",
+            "op": "Enforcer",
+            "verb": "Take",
+            "target": "vale",
+            "place": "service-lane",
+            "blinds": null,
+            "approach": null,
+            "start_s": 350,
+            "duration_s": 38,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "e350-vale-exit-service",
+            "before": "e480-close",
+            "note": "Walk getaway-bay→service-lane 62.5 m = 52.1 s. Starts as Vale steps out of the service door (e350-vale-exit-service); he stays at the moved car in the service lane until the escort clears the route (e370-vale-at-car-service → e480-close). service-lane lies outside every watcher area (both cameras, the office guard and the patrol) and the rivals are away (B3). Done 388 s (by the 390 s ambush limit); rivals reach the bay at 418 s."
+          }
+        ]
+      },
+      {
+        "id": "L-guard-down",
+        "kind": "loud",
+        "summary": "The hard way. Tech loops the entrance camera, then reroutes the patrol bot so it doesn't break toward the gunfire → Enforcer shoots the guard at his post (2 shots: Alert 2, +4 T) → enters and takes Vale. The rivals arrive within 16 s; police close from the west street; the seal clock runs. $0 · 4 T · A 2 · Take done 3:29.",
+        "steps": [
+          {
+            "id": "L1-reroute-bot",
+            "op": "Tech",
+            "verb": "Reroute",
+            "target": "patrol-bot",
+            "place": "control-cabinet",
+            "blinds": "patrol-bot",
+            "approach": null,
+            "start_s": 98,
+            "duration_s": 10,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "L2-loop-entrance",
+            "before": "L3-fire",
+            "note": "Same place as the Loop (control-cabinet), so the Loop tether holds. Blind runs from the end of the step: patrol blind 108–223 s, which covers the shots at 121–133 s (no 30 m gunfire break) and the Enter completing at 171 s."
+          },
+          {
+            "id": "L2-loop-entrance",
+            "op": "Tech",
+            "verb": "Loop",
+            "target": "entrance-camera",
+            "place": "control-cabinet",
+            "blinds": "entrance-camera",
+            "approach": null,
+            "start_s": 36,
+            "duration_s": 62,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": null,
+            "before": null,
+            "note": "Walk getaway-bay→control-cabinet 42.7 m = 35.6 s. Blind runs from the end of the step: tethered at the cabinet, the camera is blind from 98 s onward, so the shots (121–133 s) and the Enter completing at 171 s are off camera."
+          },
+          {
+            "id": "L3-fire",
+            "op": "Enforcer",
+            "verb": "Fire",
+            "target": "office-guard",
+            "place": "office-approach",
+            "blinds": null,
+            "approach": null,
+            "start_s": 121,
+            "duration_s": 6,
+            "cost": 0,
+            "trail": 2,
+            "alert": 2,
+            "after": "e120-guard-post",
+            "before": null,
+            "note": "Walk 39.3 s. The first shot of the incident sets Alert 2: police come toward the reported route from the west street, and the rivals arrive within 16 s (by about 143 s)."
+          },
+          {
+            "id": "L4-fire",
+            "op": "Enforcer",
+            "verb": "Fire",
+            "target": "office-guard",
+            "place": "office-approach",
+            "blinds": null,
+            "approach": null,
+            "start_s": 127,
+            "duration_s": 6,
+            "cost": 0,
+            "trail": 2,
+            "alert": 0,
+            "after": "L3-fire",
+            "before": null,
+            "note": "Second hit drops the guard (2 hits drop a person). Same incident, so no extra Alert; +2 T."
+          },
+          {
+            "id": "L5-enter",
+            "op": "Enforcer",
+            "verb": "Enter",
+            "target": "civic-office",
+            "place": "office-approach",
+            "blinds": null,
+            "approach": null,
+            "start_s": 133,
+            "duration_s": 38,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "L4-fire",
+            "before": null,
+            "note": "Completes at 171 s. The guard is down, the camera looped (L2, from 98 s), the patrol rerouted (L1, 108–223 s), so the entry is not seen."
+          },
+          {
+            "id": "L6-take-vale",
+            "op": "Enforcer",
+            "verb": "Take",
+            "target": "vale",
+            "place": "civic-office",
+            "blinds": null,
+            "approach": null,
+            "start_s": 171,
+            "duration_s": 38,
+            "cost": 0,
+            "trail": 0,
+            "alert": 0,
+            "after": "L5-enter",
+            "before": null,
+            "note": "Interior. Out by the service door at 209 s, into the rivals and police already on the block. The seal comes at least 145 s after the police arrive, so Vale must be aboard before it."
+          }
+        ]
+      }
+    ],
+    "fails": [
+      {
+        "id": "F1-vale-leaves",
+        "condition": "Vale leaves in the official car: no Take completes before the escort clears the route",
+        "reachedBy": "e480-close"
+      },
+      {
+        "id": "F2-rivals-reach-vale",
+        "condition": "Rivals reach Vale: they are parked at the north kerb when he comes out, with no false tip and no earlier Take",
+        "reachedBy": "e190-rivals-park"
+      },
+      {
+        "id": "F3-driver-window-missed",
+        "condition": "Driver not turned/cued by 5:40: Vale exits north into the pickup camera and the rival car, so route B collapses into F1/F2",
+        "reachedBy": "e340-driver-last"
+      },
+      {
+        "id": "F4-entry-seen",
+        "condition": "Entry seen by guard, live camera or patrol: the Enter completes at office-approach without the loop, the guard's call-away or a patrol reroute/sweep gap (e.g. after the guard returns at about 296 s)",
+        "reachedBy": "A6-enter"
+      },
+      {
+        "id": "F5-district-seals",
+        "condition": "District seals: gunfire sets Alert 2, police close from the west street, and the district seals 145 s after they arrive with Vale not yet out",
+        "reachedBy": "L3-fire"
+      },
+      {
+        "id": "F6-enforcer-down",
+        "condition": "Enforcer down: the rivals arrive within 16 s of the gunfire and security sides with them",
+        "reachedBy": "L4-fire"
+      },
+      {
+        "id": "F7-vale-killed",
+        "condition": "Vale killed: shot in the firefight at the door or the kerb (shooting the target = fail)",
+        "reachedBy": "L6-take-vale"
+      }
+    ],
+    "fight": {
+      "loud": "Loud (any shot, a guard killed, or Alert ≥ 2): the rival crew (3–5) come in within 16 s of the first shot and take the extraction. Security sides with them: the patrol bot (once its reroute lapses) and the fountain guard on the plaza fire on the cell, and 2–4 police close from the west street toward the reported route with the 145 s seal clock running. No allies; Inez and the driver stay out of it. 30–60 s, with the Enforcer carrying Vale.",
+      "quiet": "Quiet (no shots, Alert ≤ 1): the rivals ambush the extraction and security fights them alongside the cell. The office guard, who never saw you, and the fountain guard engage the rivals; the patrol bot tightens on them. Route A: Inez, debt cleared, warns the Fixer 10 s before the rival car comes in. Route B: the driver, his sister's deposit paid, blocks the rival car with the official car (−1 rival), and the Scout's earlier false tip has already pulled one away (−1 rival). 30–60 s."
+    },
+    "win": "Vale alive at the getaway car (getaway-bay) before e480-close, with the Enforcer standing."
+  },
+  "dialogue": {
+    "lines": [
+      {
+        "personId": "inez",
+        "situation": "Ask",
+        "line": "A favour? For free? Honey, the moneylender takes my wages every week. Order something or move along."
+      },
+      {
+        "personId": "inez",
+        "situation": "Pay",
+        "line": "Seventy thousand buys one message to the guard, nothing more. If someone pays better, don't take it personally."
+      },
+      {
+        "personId": "inez",
+        "situation": "Help",
+        "line": "You cleared the loan? All forty thousand? ...Fine. Tell me when, and the guard comes to me."
+      },
+      {
+        "personId": "inez",
+        "situation": "Pressure",
+        "line": "You know about the loan. And what, you'll tell the lender I'm skimming? ...Okay. One message. Then leave me alone."
+      },
+      {
+        "personId": "inez",
+        "situation": "refusal",
+        "line": "Nobody gets something from me for nothing. Come back with an offer, and it'll cost you more now."
+      },
+      {
+        "personId": "inez",
+        "situation": "confirm_call",
+        "line": "Messaging him now. Break behind the café, two minutes. Better make them count."
+      },
+      {
+        "personId": "inez",
+        "situation": "questioned",
+        "line": "Strangers? Officer, I pour coffee all day. Some tall man bought a pastry and paid in coins. That's all."
+      },
+      {
+        "personId": "inez",
+        "situation": "questioned",
+        "line": "The talker, the one who knew about my loan. Keep me out of it and I'll describe him."
+      },
+      {
+        "personId": "driver",
+        "situation": "Ask",
+        "line": "Drive Vale somewhere else? He signed the order that's evicting my sister. And still, I don't break my word."
+      },
+      {
+        "personId": "driver",
+        "situation": "Help",
+        "line": "The deposit... my sister keeps a roof over her kids. Tell me when. I'll move the car."
+      },
+      {
+        "personId": "driver",
+        "situation": "refusal",
+        "line": "I won't sell out my post to strangers. Ask me again and I'll want more than words."
+      },
+      {
+        "personId": "driver",
+        "situation": "confirm_call",
+        "line": "Councillor, north pickup's blocked. I've brought the car round to the service lane, sir."
+      },
+      {
+        "personId": "driver",
+        "situation": "questioned",
+        "line": "The north pickup was blocked, so I moved the car, like any driver would. Check the logs yourself."
+      }
+    ]
+  },
+  "check": {
+    "pass": true,
+    "violations": [],
+    "routes": [
+      {
+        "id": "A-front-door",
+        "kind": "quiet",
+        "cost": 40000,
+        "trail": 1,
+        "alert": 0,
+        "finish_s": 252,
+        "contacts": [
+          "inez"
+        ]
+      },
+      {
+        "id": "B-service-lane",
+        "kind": "quiet",
+        "cost": 40000,
+        "trail": 1,
+        "alert": 0,
+        "finish_s": 388,
+        "contacts": [
+          "driver"
+        ]
+      },
+      {
+        "id": "L-guard-down",
+        "kind": "loud",
+        "cost": 0,
+        "trail": 4,
+        "alert": 2,
+        "finish_s": 209,
+        "contacts": []
+      }
+    ]
+  }
+}

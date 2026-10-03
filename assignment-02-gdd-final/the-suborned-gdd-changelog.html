@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Suborned Changelog</title>
+<style>
+:root{
+  --paper:#f6f0e2; --card:#fffaf0; --ink:#17323a; --muted:#56706f; --rule:#d8ccb4;
+  --teal:#0f7f7a; --teal-soft:#d6ece7; --coral:#c9503a; --coral-soft:#f8ddd4;
+  --gold:#a87b14; --gold-soft:#f3e6c2; --violet:#6f4fb3; --violet-soft:#e6ddf6;
+  --shadow:0 1px 0 rgba(23,50,58,.08), 0 8px 24px rgba(23,50,58,.08);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0f1c20; --card:#16272c; --ink:#ece4d2; --muted:#9fb4b1; --rule:#2c4349;
+  --teal:#4fc4b9; --teal-soft:#16393a; --coral:#f08066; --coral-soft:#3d2520;
+  --gold:#e0b44c; --gold-soft:#3a3020; --violet:#a98cf0; --violet-soft:#2a2340;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --paper:#0f1c20; --card:#16272c; --ink:#ece4d2; --muted:#9fb4b1; --rule:#2c4349;
+  --teal:#4fc4b9; --teal-soft:#16393a; --coral:#f08066; --coral-soft:#3d2520;
+  --gold:#e0b44c; --gold-soft:#3a3020; --violet:#a98cf0; --violet-soft:#2a2340;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 "Avenir Next","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Futura,"Futura PT","Avenir Next",system-ui,sans-serif;letter-spacing:-.01em;line-height:1.1}
+h2{font-size:clamp(1.7rem,4vw,2.5rem);margin:.2em 0 .5em}
+h3{font-size:1.15rem;margin:1.6em 0 .5em}
+p{margin:.6em 0}
+code{font-size:.85em}
+img{max-width:100%;display:block}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header.cover{position:relative;overflow:hidden;background:#10262b;color:#fffaf0;min-height:78vh;display:flex;align-items:flex-end;padding:0 0 48px}
+header.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,30,34,0) 30%,rgba(10,30,34,.9) 100%)}
+header.cover img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+header.cover .wrap{width:100%}
+figure{margin:1.4em 0}
+figure img{border-radius:10px}
+figcaption{font-size:.82rem;color:var(--muted);margin-top:.45em}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:1.4em 0 .4em}
+.shots img{border-radius:10px;aspect-ratio:3/2;object-fit:cover;width:100%}
+header.cover .wrap{position:relative;z-index:1}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--coral)}
+header .kicker{color:#ffc98f}
+header h1{font-size:clamp(2.8rem,9vw,6rem);margin:.1em 0}
+header .tagline{font-size:clamp(1.2rem,3vw,1.7rem);margin:0 0 .2em;font-weight:600}
+header .arc{font-size:clamp(1rem,2.2vw,1.2rem);opacity:.85;margin:0 0 1.4em}
+header .meta{font-size:.88rem;opacity:.75}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule)}
+nav.toc .wrap{display:flex;gap:18px;overflow-x:auto;padding-top:10px;padding-bottom:10px;font-size:.85rem;white-space:nowrap}
+nav.toc a{text-decoration:none;color:var(--muted);font-weight:600}
+nav.toc a:hover{color:var(--ink)}
+section{scroll-margin-top:44px;padding:56px 0 8px;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+.num{font-family:Futura,"Avenir Next",sans-serif;color:var(--coral);font-weight:700;font-size:.9rem;letter-spacing:.1em}
+.lede{font-size:1.18rem;max-width:64ch}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow)}
+.card h3{margin-top:.1em}
+.card.teal{border-top:4px solid var(--teal)} .card.coral{border-top:4px solid var(--coral)} .card.gold{border-top:4px solid var(--gold)} .card.violet{border-top:4px solid var(--violet)}
+a{color:var(--teal);text-underline-offset:2px;text-decoration-thickness:1px}
+a:visited{color:var(--teal)}
+a:hover{color:var(--coral)}
+a:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.callout{background:var(--teal-soft);border-left:4px solid var(--teal);padding:12px 16px;border-radius:0 10px 10px 0;margin:1.2em 0}
+.callout.warn{background:var(--coral-soft);border-color:var(--coral)}
+.callout.gold{background:var(--gold-soft);border-color:var(--gold)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:12px;overflow:hidden;margin:1.2em 0}
+.facts div{background:var(--card);padding:12px 14px}
+.facts b{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.table-wrap{overflow-x:auto;margin:1em 0;border:1px solid var(--rule);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tag{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 7px;border-radius:99px;vertical-align:middle;margin-left:4px}
+.tag.built{background:var(--teal-soft);color:var(--teal);border:1px solid var(--teal)}
+.tag.spec{background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold)}
+.tag.test{background:var(--coral-soft);color:var(--coral);border:1px solid var(--coral)}
+.tag.later{background:var(--violet-soft);color:var(--violet);border:1px solid var(--violet)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:1.2em 0}
+.flow span{background:var(--card);border:1px solid var(--rule);border-radius:99px;padding:6px 14px;font-weight:700;font-size:.92rem}
+.flow i{color:var(--coral);font-style:normal;font-weight:700}
+.c-cash{color:var(--gold)} .c-time{color:var(--teal)} .c-trail{color:var(--coral)}
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border:1px solid var(--rule);border-radius:12px;overflow:hidden;margin:1.2em 0}
+.acts div{background:var(--card);padding:16px 18px;border-right:1px solid var(--rule)}
+.acts div:last-child{border-right:0}
+.acts b{display:block;font-family:Futura,"Avenir Next",sans-serif;font-size:1.05rem;margin-bottom:.3em}
+.acts small{display:block;color:var(--coral);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.7rem}
+.map{position:relative;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.map img{width:100%}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-50%);background:#fffaf0;color:#17323a;border:2px solid #17323a;border-radius:6px;padding:1px 6px;font-size:clamp(.55rem,1.4vw,.75rem);font-weight:700;white-space:nowrap}
+.pin.goal{border-color:#c9503a;color:#c9503a}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.8rem;color:var(--muted);margin-top:.6em}
+.legend i{display:inline-block;width:18px;height:4px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.timeline{margin:1.4em 0;padding-left:20px;border-left:3px solid var(--rule)}
+.timeline div{position:relative;margin:0 0 12px}
+.timeline div::before{content:"";position:absolute;left:-28px;top:.45em;width:13px;height:13px;border-radius:50%;background:var(--card);border:3px solid var(--teal)}
+.timeline div.hot::before{border-color:var(--coral)}
+.timeline b{font-variant-numeric:tabular-nums;font-family:Futura,"Avenir Next",sans-serif;margin-right:8px}
+ul.tight,ol.tight{padding-left:1.1em} .tight li{margin:.3em 0}
+.small{font-size:.82rem;color:var(--muted)}
+footer{padding:40px 0 60px;color:var(--muted);font-size:.85rem}
+@media (max-width:600px){ section{padding-top:40px} .lede{font-size:1.05rem} .acts div{border-right:0;border-bottom:1px solid var(--rule)} }
+@page{size:A4;margin:14mm 15mm}
+@media print{ :root{color-scheme:light;--paper:#fff;--card:#fffaf0;--ink:#17323a;--muted:#56706f;--rule:#d8ccb4;--teal:#0f7f7a;--coral:#c9503a} html,body{background:var(--paper);-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:9.4pt;line-height:1.45} nav.toc{display:none} .wrap{max-width:none;padding:0} section{padding:5mm 0 2mm;break-inside:auto} h2{font-size:17pt} h3{font-size:11pt;margin:1.1em 0 .4em} h2,h3,.kicker,.num{break-after:avoid} tr,li,.callout,.table-wrap,table,.blk{break-inside:avoid} h3{break-after:avoid} table{font-size:8.4pt} footer{margin-top:3mm} }
+</style>
+</head>
+<body>
+<main>
+<section style="padding-top:40px"><div class="wrap"><div class="kicker">The Suborned · game design document</div><h1 style="font-size:clamp(2.2rem,6vw,3.6rem);margin:.2em 0">Changelog</h1><p class="lede">What changed between the submitted v0.9.18 and v0.12.0, and which review drove it.</p></div></section>
+<section id="history"><div class="wrap">
+  <div class="num">HISTORY</div>
+  <h2>Versions</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Version</th><th>Date</th><th>Status</th><th>Summary</th></tr></thead>
+    <tbody>
+      <tr><td>v0.9.18</td><td class="n">Sept 2026</td><td>Submitted</td><td>Influence-and-timing design around a Records Office extraction. Reviewed by the AI reviewer on GitHub, a peer and the course instructor.</td></tr>
+      <tr><td>v0.10.18</td><td class="n">26 Sep 2026</td><td>Draft</td><td>Fixed the four rule gaps the AI reviewer found.</td></tr>
+      <tr><td>v0.11</td><td class="n">29 Sep 2026</td><td>Draft</td><td>First game-first rewrite for the instructor: the Vale kidnapping and the long-chain fantasy. <a href="recovered-v0.11/the-suborned-gdd-v0.11-2026-09-29.html">Recovered copy</a>.</td></tr>
+      <tr><td>v0.12.0</td><td class="n">30 Sep 2026</td><td>Current</td><td>Game-first redesign: a four-person cell, priced approaches, Standing, escalating fights, generated content. Ships as a 6-page submission, the full GDD and a 7-page <a href="the-suborned-add-v0.12.0-2026-09-30.html">agentic design document</a>.</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+<section id="review"><div class="wrap">
+  <div class="num">REVIEW</div>
+  <h2>What review changed</h2>
+  <p class="lede">All three reviews were of the submitted v0.9.18. A peer helped talk through the game concepts. The other two led to the changes below.</p>
+  <div class="blk"><h3>Course instructor: less manual, more game</h3>
+  <p>The GDD read too much like a manual. It needed to show the game and the excitement of how it plays.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Problem</th><th>Change in v0.12.0</th></tr></thead>
+    <tbody>
+      <tr><td>The build led; the game came later.</td><td>Sections 01–08 are what you play. The build and the agent crew come after. In the 6-page submission, pages 1–4 are the game.</td></tr>
+      <tr><td>Too technical for a design document.</td><td>Plain language throughout. Schemas, file formats and the test plan moved to the agentic design document.</td></tr>
+      <tr><td>Agent names were confusing.</td><td>The crew is listed by job first, name second (Systems designer · Motive).</td></tr>
+    </tbody>
+  </table></div></div>
+  <div class="blk"><h3>AI reviewer on GitHub: four gaps in the rules</h3>
+  <p>Fixed in v0.10.18 and still in place in v0.12.0.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Gap</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>The proof carried too much; its goal and ending were hard to test.</td><td>One focused mission with an explicit win and fail.</td></tr>
+      <tr><td>Time pressure had no source.</td><td>Each mission has a closing event: Vale leaves at handover.</td></tr>
+      <tr><td>Nothing in the city pushed back except the player.</td><td>A rival crew pursues its own goal on the same clock.</td></tr>
+      <tr><td>An action couldn't be traced to its result.</td><td>Every event states what it needs, what it changes and who sees it. Any run replays exactly.</td></tr>
+    </tbody>
+  </table></div></div>
+</div></section>
+<section id="map"><div class="wrap">
+  <div class="num">AT A GLANCE</div>
+  <h2>v0.9.18 → v0.12.0</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Area</th><th>v0.9.18</th><th>v0.12.0</th></tr></thead>
+    <tbody>
+      <tr><td>Promise</td><td>Influence people, then time their actions</td><td>Same pillars, one arc: <b>start with one waitress, end with the city</b></td></tr>
+      <tr><td>First mission</td><td>Extract a record from the Records Office</td><td><b>Handover</b>: take Councillor Vale alive, by one of two routes</td></tr>
+      <tr><td>Player side</td><td>One field operative</td><td>A four-person cell: Scout, Fixer, Tech, Enforcer</td></tr>
+      <tr><td>Influence</td><td>One lever, checked against trust</td><td>Four priced approaches; knowledge makes consent cheap</td></tr>
+      <tr><td>Consequence</td><td>People remember; exposure undefined</td><td>Alert, Trail and district Standing (Hero ↔ Menace)</td></tr>
+      <tr><td>Pressure</td><td>A shared clock</td><td>Closing events, a rival crew, escalating fights</td></tr>
+      <tr><td>Economy</td><td>None</td><td>Cash, Arms and Assets from turned people</td></tr>
+      <tr><td>Content</td><td>Hand-authored</td><td>Generated at build time and checked; no AI during play</td></tr>
+      <tr><td>Proof</td><td>Top-down 2D, planned</td><td>Top-down test built (28 scenarios pass); 2.5D Unity scene next</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+</main>
+<footer><div class="wrap">The Suborned · changelog · 30 September 2026. Companion to the <a href="the-suborned-gdd-v0.12.0-2026-09-30-6p.pdf">6-page submission (PDF)</a>, the <a href="the-suborned-gdd-v0.12.0-2026-09-30.html">full GDD</a> and the <a href="the-suborned-add-v0.12.0-2026-09-30.html">ADD</a>.</div></footer>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "id": "civic-district",
+  "manifest": "../../../game-source/experiments/civic-2p5d/world-manifest.json",
+  "walk_mps": 1.2,
+  "crew_start": "crew-car",
+  "places": [
+    { "id": "cafe-courtyard", "from": "Courtyard", "tags": ["meet", "sit"] },
+    { "id": "cafe-door", "from": "Café door", "tags": ["work"] },
+    { "id": "behind-cafe", "from": "Behind café", "tags": ["meet", "deliver"] },
+    { "id": "cafe-steps", "from": "Steps", "tags": ["wait", "watch"] },
+    { "id": "fountain", "from": "Fountain", "tags": ["meet", "wait"] },
+    { "id": "plaza-east", "from": "Plaza east", "tags": ["watch"] },
+    { "id": "plaza-west", "from": "Plaza west", "tags": ["watch"] },
+    { "id": "getaway-bay", "from": "Getaway bay", "tags": ["getaway", "vehicle"] },
+    { "id": "official-dropoff", "from": "Official drop-off", "tags": ["pickup", "vehicle"] },
+    { "id": "office-north", "from": "civic-office-north", "tags": ["entrance"] },
+    { "id": "office-approach", "from": "Office approach", "tags": ["entrance"] },
+    { "id": "service-lane", "from": "Service lane", "tags": ["entrance", "deliver"] },
+    { "id": "civic-office", "from": "civic-office", "tags": ["interior", "target"] },
+    { "id": "south-walkway", "from": "South walkway", "tags": ["wait", "watch"] },
+    { "id": "control-cabinet", "from": "civic-control-cabinet", "tags": ["device"] }
+  ],
+  "residents": [
+    { "id": "vale", "from": "vale", "role": "target", "place": "civic-office", "job": "councillor", "canon": "the kidnap target; inside the civic office until he leaves for his official car" },
+    { "id": "inez", "from": "inez", "role": "contact", "place": "cafe-courtyard", "job": "café waitress", "canon": "having an affair with the office guard; the Scout learns it by listening in at the café, and she can draw him off his post. One way in, not the only one: you can avoid her by taking out the guard or by suborning Vale's driver. If the guard is taken out while he is with her (away from the cameras and the patrol bot), she witnesses it: she is lost as a contact and may betray the cell later" },
+    { "id": "driver", "from": "official-driver", "role": "contact", "place": "official-dropoff", "job": "councillor's driver, at the official car", "canon": "waits at the official car to drive Vale away" },
+    { "id": "rivals", "name": "Rival crew", "role": "rivals", "place": "official-dropoff", "job": "rival faction", "canon": "not on the block at the start; arrives after a set time to put pressure on, and the mission ends in a firefight with them" }
+  ],
+  "watchers": [
+    { "id": "entrance-camera", "kind": "camera", "post": [45, -22], "area": [[45, -22], [26, -27], [38, -36]], "blind_s": null },
+    { "id": "pickup-camera", "kind": "camera", "post": [43.5, 12.5], "area": [[43.5, 12.5], [29, 6], [38, 1]], "blind_s": null },
+    { "id": "office-guard", "kind": "guard", "from": "office-guard", "radius": 8, "blind_s": 120 },
+    { "id": "patrol-bot", "kind": "patrol", "from": "patrol-bot", "area": [[28, -32], [46, -32], [46, -24], [28, -24]], "blind_s": 115, "sweep": { "period_s": 100, "gap": [33, 67] } },
+    { "id": "fountain-guard", "kind": "guard", "from": "fountain-patrol-guard", "radius": 14, "blind_s": 60 }
+  ],
+  "notes": "Rivals, cameras and the patrol sweep are not in the manifest yet; authored here from the prototype (suborned-world-sim.js) until they are. Remove each entry once the manifest carries it."
+}

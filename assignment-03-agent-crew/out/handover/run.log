@@ -1,0 +1,70 @@
+[lead-producer] brief briefs/handover.json · layout civic-district (15 places, 5 watchers) → out/handover
+[lead-producer] systems-designer: cast
+[lead-producer] schedule-designer → mission-designer ∥ dialogue-designer
+[lead-producer] round 0: checker 3 violations; simulation-engineer reviewing
+[lead-producer] simulation-engineer: 6 blocking, 7 notes — Fail. The checker failed with 3 violations, all on mission-designer steps: B5 'timing', A6 'seen' and B5 'meet'. I found 3 more blocks:
+
+1. Route L has the same blind-ordering fault as A5. The checker misses it because it only runs 'seen' on quiet routes.
+2. The service-lane door is an open, unwatched entrance. That allows a $0, contact-free route that is better than every other route.
+3. On quiet routes nothing triggers the always-on rival fight.
+
+Route B's meet fault starts in the schedule: the driver's act moves Vale's exit, but no event says so. The fix is service-lane variants of e350 and e370, conditioned on the driver being cued. My own follow-up (rulebook/checker): whereAt in spatial.ts must respect event 'needs' once these variants exist. Otherwise it will place Vale at both doors. Also, the 'seen' check should cover loud routes too, since F4 applies to all routes.
+
+Prices, the purse arithmetic, Alert-per-incident in L (2 then 0), contact essentiality and the dialogue coverage hold. No civilian is the payload: the driver blocking the rival car is an allowed citizen block.
+[lead-producer] revising: systems-designer, schedule-designer, mission-designer, dialogue-designer
+[lead-producer] round 1: checker pass; simulation-engineer reviewing
+[lead-producer] simulation-engineer: 2 blocking, 8 notes — Fail. All 6 earlier blocks are fixed, the checker passes, and its route totals match the summaries: A $40k / 1 T / A0 / Take done 204 s; B $40k / 1 T / A0 / Take done 388 s; L $0 / 4 T / A2 / Take done 209 s.
+
+Earlier blocks, confirmed fixed:
+- In A and L the Tech now Loops 36–98 s, then Reroutes 98–108 s.
+- B5 is anchored after e350-vale-exit-service and before e480-close.
+- The service-lane variant events now exist.
+- Enter at service-lane is ruled out.
+- The rival ambush now fires at a set time: Take + 30 s, with a Take due by 390 s.
+
+The revision introduced one new fault, written in two places (cast and e340-car-moved). The door rule now says the service-lane door opens only for Vale, and only after e340-car-moved. That locks the exits A7 (204 s) and L6 (209 s) use, so neither route can be played as written. Fix: make it a push-bar exit anyone inside can open at any time, always locked from outside.
+
+Still holding: Alert counts once per incident in L (2, then 0), the purse arithmetic, contacts are needed on every quiet route, dialogue covers every situation, and no civilian is the payload.
+
+The rest are notes, including earlier notes that are still open.
+
+My own follow-ups (rulebook/checker):
+- e420's at_s is a latest time, not a fixed time; spatial.ts must handle it that way.
+- whereAt must respect `needs` now that the variant events exist.
+- The 'seen' check should also run on loud routes.
+[lead-producer] revising: systems-designer, schedule-designer, mission-designer, dialogue-designer
+[lead-producer] round 2: checker pass; simulation-engineer reviewing
+[lead-producer] simulation-engineer: 0 blocking, 7 notes — Pass. The checker passes with no violations, and both earlier blocks are fixed.
+
+Earlier blocks, confirmed fixed:
+- systems-designer: cast.target.routine now says the service-lane door is a push-bar exit. Anyone inside can open it at any time, it is always locked from outside, and e340-car-moved only changes where Vale exits and where the car waits. driver.whenTurned now says the move 'never lets anyone in'.
+- schedule-designer: e340-car-moved.what no longer says 'only thing that opens' or 'for Vale only'.
+So the route A exit (A7 ends 252 s) and the route L exit (L6 ends 209 s) are valid again.
+
+The revision also fixed one earlier note. A2-help-inez now waits for the guard to reach his post (e120) and runs 120–170 s. A4, A6 and A7 moved to fit:
+- A4: call 170–176 s; the guard is away until about 296 s.
+- A6: Enter ends 214 s, inside the patrol blind (108–223 s) and the loop (from 98 s).
+- A7: Take ends 252 s, with 228 s to spare.
+The new times add no new fault: the ambush falls at 282 s, well inside the 420 s limit.
+
+Route totals match the checker:
+- A: $40k, 1 T, Alert 0, Take done 252 s.
+- B: $40k, 1 T, Alert 0, Take done 388 s.
+- L: $0, 4 T, Alert 2, Take done 209 s.
+
+Still holding: Alert counts once per incident on route L, the purse arithmetic, every quiet route needs a contact, the dialogue covers every situation, and no civilian is the payload.
+
+Seven notes remain from earlier rounds, none blocking. They cover the win wording, the carry as a step, the spotter wording in e420, a service-lane version of e480, the guard's departure second and the police arrival time, the driver as a witness to the Take, and the driver's 'questioned' line.
+
+One concern nobody raised: the route A carry passes through the office guard's area at about 266 s, and he returns at about 296 s. That margin of about 30 s is unchecked until the carry is a step.
+
+My own follow-ups (rulebook/checker): treat e420's at_s as a latest time, make whereAt respect `needs`, and run the 'seen' check on loud routes too.
+
+Next: lead producer (accept). Owners can pick up the notes in the next pass.
+[lead-producer] tokens systems-designer: 3 calls · 65,135 in · 9,797 out · 74,932 total
+[lead-producer] tokens dialogue-designer: 3 calls · 29,702 in · 3,968 out · 33,670 total
+[lead-producer] tokens schedule-designer: 3 calls · 57,294 in · 12,036 out · 69,330 total
+[lead-producer] tokens mission-designer: 3 calls · 152,252 in · 40,445 out · 192,697 total
+[lead-producer] tokens simulation-engineer: 3 calls · 167,642 in · 33,560 out · 201,202 total
+[lead-producer] tokens overall: 15 calls · 472,025 in · 99,806 out · 571,831 total · 1271s agent time
+[lead-producer] ACCEPTED after 3 round(s), 15 agent calls → out/handover/mission-package.json, out/handover/briefing.html

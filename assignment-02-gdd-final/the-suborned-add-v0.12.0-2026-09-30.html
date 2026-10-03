@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Suborned ADD</title>
+<style>
+:root{--ink:#183b40;--deep:#103239;--teal:#087f83;--coral:#c76555;--gold:#b98a2c;--violet:#6f4fb3;--paper:#fbf9f0;--pale:#eaf3ee;--line:#c6d9d2;--muted:#526e70}
+*{box-sizing:border-box}
+@page{size:A4;margin:0}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:#dcd8cc;color:var(--ink);font:8.6pt/1.38 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+h1,h2,h3,p{margin:0}
+.page{position:relative;width:210mm;height:297mm;margin:10mm auto;padding:11mm 14mm 14mm;background:var(--paper);box-shadow:0 2px 14px #0002;break-after:page;overflow:hidden}
+.page:last-child{break-after:auto}
+.foot{position:absolute;left:14mm;right:14mm;bottom:6mm;display:flex;justify-content:space-between;font-size:6.8pt;color:var(--muted);border-top:.6pt solid var(--line);padding-top:1.6mm}
+.mast{margin:-11mm -14mm 0;padding:9mm 14mm 6mm;color:#fffdf5;background:linear-gradient(90deg,#082327,#14424a)}
+.mast .kick{font-size:7pt;letter-spacing:.14em;text-transform:uppercase;color:#98d9cf;font-weight:800}
+.mast h1{font:italic 500 32pt/0.95 Georgia,serif;letter-spacing:-.03em;margin:2mm 0 2.4mm}
+.mast h1 span{color:#a3e2d5}
+.mast .lede{font:italic 11.5pt/1.3 Georgia,serif;color:#e0f0e7;max-width:150mm}
+.head{display:grid;grid-template-columns:11mm 1fr;gap:3mm;align-items:start;margin:4.6mm 0 2.4mm}
+.head .num{font:900 19pt/1 -apple-system,sans-serif;color:var(--coral);letter-spacing:-.05em}
+.head .kick{font-size:6.8pt;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:800}
+.head h2{font:italic 500 17pt/1.05 Georgia,serif;letter-spacing:-.02em;margin:.6mm 0 1mm}
+.head p{color:var(--muted);font-size:8.3pt}
+.page>.head:first-child{margin-top:0}
+.sub{font-weight:800;color:var(--teal);font-size:9pt;margin:3mm 0 1.4mm}
+p+p{margin-top:1.3mm}
+.small{font-size:7.6pt}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.note{border-left:1mm solid var(--coral);background:#fff8e9;padding:2.2mm 3.2mm;margin:2.6mm 0}
+.note.t{border-color:var(--teal);background:var(--pale)}
+.layers{display:grid;grid-template-columns:repeat(4,1fr);gap:.6pt;background:var(--line);border:.6pt solid var(--line)}
+.layers>div{background:#fffdf8;padding:2.2mm 2.6mm;font-size:7.6pt;line-height:1.35}
+.layers b{display:block;color:var(--coral);font-size:8.4pt;margin-bottom:.5mm}
+.layers .sz{display:block;margin-top:1mm;color:var(--teal);font-weight:800;font-size:7pt}
+table{border-collapse:collapse;width:100%;background:#fffefa;border:.6pt solid var(--line)}
+th,td{text-align:left;vertical-align:top;padding:1.1mm 2mm;border-bottom:.5pt solid #dce8e2}
+th{font-size:6.2pt;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);background:var(--pale)}
+td{font-size:7.5pt;line-height:1.3}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:800;white-space:nowrap}
+ul{margin:0;padding-left:4mm}li+li{margin-top:.7mm}
+.role{border:.6pt solid var(--line);background:#fffefa;padding:2.4mm 3mm 2.6mm;break-inside:avoid}
+.role.wide{grid-column:1/-1}
+.role header{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6mm 2mm;border-bottom:.6pt solid var(--line);padding-bottom:1.2mm;margin-bottom:1.4mm}
+.role h3{font:italic 600 13.5pt/1 Georgia,serif;color:var(--teal)}
+.role .job{font-size:7.8pt;font-weight:800;white-space:nowrap}
+.role .tok{font-size:6.2pt;font-weight:850;color:var(--coral);white-space:nowrap;padding:.2mm 1.4mm;border:.5pt solid var(--coral);border-radius:1mm}
+.role .meta{margin-left:auto;display:flex;align-items:baseline;gap:2mm}
+.role .model{font-size:6.2pt;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.role dl{display:grid;grid-template-columns:16mm 1fr;gap:1.2mm 2mm;margin:0;font-size:8.6pt;line-height:1.4}
+.role.wide dl{grid-template-columns:15mm 1fr 15mm 1fr}
+.role dt{font-size:6.4pt;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);padding-top:.35mm}
+.role dd{margin:0}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:2.8mm}
+a.cl{color:var(--teal);font-weight:700}
+code{font:7.2pt ui-monospace,Menlo,monospace}
+.agd{margin:0;column-count:2;column-gap:5mm;column-fill:auto;height:252mm;font:6.35pt/1.36 ui-monospace,"SF Mono",Menlo,Consolas,monospace;white-space:pre-wrap;word-break:normal;overflow-wrap:anywhere;color:#1d3a3e}
+.agdp .head+.agd{height:222mm}
+.agd b.h{display:inline-block;color:var(--coral);font-weight:800;margin-top:1.4mm}
+.agd b.t{color:var(--teal);font-weight:800}
+.route{display:flex;flex-wrap:wrap;gap:1.4mm;align-items:center;margin:0 0 1.6mm}
+.route span{background:var(--deep);color:#f9f2e5;padding:1.3mm 2.5mm;border-radius:1mm;font-size:7.5pt;font-weight:800}
+.route span.alt{background:var(--teal)}
+.route i{font-style:normal;color:var(--coral);font-weight:900}
+.sizes{display:grid;grid-template-columns:repeat(5,1fr);gap:.6pt;background:var(--line);border:.6pt solid var(--line)}
+.sizes>div{background:#fffdf8;padding:1.3mm 2.2mm;font-size:7.6pt;font-variant-numeric:tabular-nums}
+.sizes b{color:var(--teal);margin-right:1.6mm}
+@media screen and (max-width:820px){
+  body{background:var(--paper)}
+  .page{width:auto;height:auto;margin:0;padding:18px 16px 40px;box-shadow:none;border-bottom:1px solid var(--line)}
+  .mast{margin:-18px -16px 0;padding:28px 16px 20px}
+  .grid2,.layers,.roles,.role.wide dl{grid-template-columns:1fr}
+  .sizes{grid-template-columns:repeat(2,1fr)}
+  .agd{column-count:1;height:auto}
+  .role dl{grid-template-columns:1fr}
+  .foot{position:static;margin-top:16px}
+  table{display:block;overflow-x:auto}
+}
+@media print{body{background:none}.page{margin:0;box-shadow:none}}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 · HOW A SPAWN PROMPT IS BUILT ============ -->
+<section class="page" id="spawn">
+  <header class="mast">
+    <div class="kick">Agentic design document · v0.12.0 · companion to the GDD</div>
+    <h1>The Suborned <span>crew briefs</span></h1>
+    <p class="lede">What each of the fifteen agents receives when it's spawned: the design it must hold, who it hears from and who it hands to.</p>
+  </header>
+
+  <div class="head"><div class="num">01</div><div><div class="kick">How a spawn prompt is built</div><h2>Start with the whole design, then narrow it</h2><p>Every agent loads the shared core first, so one cached copy serves all fifteen. Aster, the lead, continues through the full design; every other agent adds only its own role card and opens other sections by number when an objective needs them.</p></div></div>
+  <div class="layers">
+    <div><b>1 · Agent GDD</b>Everyone: §01 core first, byte-identical, so all 15 share one cached prefix. Aster continues through §13 (appendix, pages 5–7).<span class="sz">≈670 everyone · ≈5,400 Aster</span></div>
+    <div><b>2 · Identity</b>Name, voice and memory of past work, carried by Anima across projects.<span class="sz">≈400–900 tokens · Anima</span></div>
+    <div><b>3 · Role card</b>This agent's §14 block, shown as its card on pages 2–4: what it owns, receives and delivers, and the numbers it must hold.<span class="sz">≈110–260 tokens now · capped at 1,500</span></div>
+    <div><b>4 · Objective</b>One task from Aster, with a definition of done and the evidence expected back.<span class="sz">≈80 tokens · per task</span></div>
+  </div>
+  <div class="note t small"><b>How the agent GDD is written.</b> For agents, not people: key: value lines, pipe tables, exact numbers and <b>[B]</b> built / <b>[S]</b> spec / <b>[L]</b> later tags, with no narrative. It keeps every rule and number in the GDD under the same section numbers, at about 60% of the length (≈5,400 tokens against ≈8,900). It's rebuilt from the GDD with each version; if the two disagree, the GDD wins.</div>
+  <div class="note small"><b>Example objective (layer 4), Aster to Motive.</b> Price the four approaches for a Mercenary contact at Hero and at Menace standing. <b>Done when</b> Keel accepts the table and three new scenarios pass. <b>Evidence:</b> the table and the scenario log. <b>Next:</b> Waymark, for the next mission template.</div>
+  <p class="sub">The handoff chain</p>
+  <div class="route"><span>Aster assigns</span><i>→</i><span>Motive rules</span><i>→</i><span>Keel rulebook</span><i>→</i><span class="alt">Waymark · Pulse · Fable</span><i>→</i><span>Keel + Splice check</span><i>→</i><span>Latch builds</span><i>→</i><span class="alt">Suture · Redline</span><i>→</i><span>Aster accepts</span></div>
+  <div class="route"><span class="alt">Vela · Forma · Glint · Glyph · Chime</span><i>→</i><span>Latch builds</span><i>→</i><span class="alt">Suture checks</span></div>
+  <div class="note t small"><b>Where the crew meets.</b> Motive and Keel draft the rulebook first. Everyone else works from that draft in parallel while Latch builds the game, and every piece is checked against it before it reaches Unity. That's what stops a plausible handoff from giving a person an action or a door the mission doesn't have.</div>
+  <p class="sub">Spawn size by agent (layers 1, 3 and 4)</p>
+  <div class="sizes"><div><b>Aster</b>5,740</div><div><b>Motive</b>1,000</div><div><b>Waymark</b>940</div><div><b>Fable</b>920</div><div><b>Pulse</b>950</div><div><b>Keel</b>950</div><div><b>Latch</b>950</div><div><b>Suture</b>940</div><div><b>Splice</b>860</div><div><b>Redline</b>870</div><div><b>Vela</b>940</div><div><b>Forma</b>880</div><div><b>Glint</b>870</div><div><b>Glyph</b>900</div><div><b>Chime</b>900</div></div>
+  <p class="small" style="margin-top:1.2mm;color:var(--muted)">Agent GDD §01 (≈670; Aster: §01–§13, ≈5,400) + role card + one objective (≈80). Identity adds ≈400–900. Estimates: OpenAI's o200k tokenizer count plus 15%, rounded to 10; exact counts vary by model.</p>
+  <div class="note small"><b>Briefs grow with the build.</b> These v0.12 cards are design briefs. As each owner's work matures, its card gains the technical guidance that work needs: conventions, formats, checks and known pitfalls. Each card is capped at 1,500 tokens. Anything longer becomes a reference file the card points to and the agent opens on demand, so a specialist's spawn stays around 3,000 tokens. Cards are cut from the GDD and rebuilt with every version; when a card and the GDD disagree, the GDD wins.</div>
+  <div class="foot"><span>The Suborned · ADD v0.12.0 · companion to <a class="cl" href="the-suborned-gdd-v0.12.0-2026-09-30.html">the GDD</a></span><span>1 / 7</span></div>
+</section>
+
+<!-- ============ PAGE 2 · LEAD AND DESIGN ============ -->
+<section class="page" id="design">
+  <div class="head"><div class="num">02</div><div><div class="kick">Role briefs · lead and design</div><h2>Who decides what the game is</h2><p>Each card is layer 3 of that agent's spawn prompt, with its estimated size. <b>Hold</b> lists the design facts it works from; <b>Opens</b> names the agent GDD sections it reads on demand.</p></div></div>
+  <div class="roles">
+    <article class="role wide"><header><h3>Aster</h3><span class="job">Lead and producer</span><span class="meta"><span class="model">Opus 5.5 · manages the other 14</span><span class="tok">≈260 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The goal, this GDD, the milestone plan, who does what, and the decision log.</dd>
+      <dt>Receives</dt><dd>Sky's goals and constraints; finished work from every agent; reviews from Suture and Redline.</dd>
+      <dt>Delivers</dt><dd>One objective at a time to one owner, with a definition of done and the evidence expected. Accepts the result or sends it back.</dd>
+      <dt>Escalates</dt><dd>To Sky only: a pillar change, new paid spend, release, destructive action, an unresolved conflict.</dd>
+      <dt>Hold</dt><dd>Five-week capstone. <b>Gate:</b> an uncoached player states the objective and fail conditions, picks an approach from something they learned, explains its cost, completes a chain, says why they fought police or rivals, and reads what the next mission inherits.</dd>
+      <dt>Hold</dt><dd><b>If it slips, cut</b> crowd witnesses → patrol reroute → camera-block variant → police branch. Keep both routes, the payoff cut, the debrief and the gate. Budget: two 20× subscriptions (one Codex, one Claude).</dd>
+      <dt>Opens</dt><dd>§01–§13, at spawn.</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Motive</h3><span class="job">Systems designer</span><span class="meta"><span class="model">Opus 5.5</span><span class="tok">≈250 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The rules for people and pressure: approach prices, temperament, standing, bravery and resentment, Talkers, Heat and the debrief.</dd>
+      <dt>Receives</dt><dd>The pillar the work serves; Suture's playtest findings.</dd>
+      <dt>Delivers</dt><dd>Rule tables to Keel, Waymark and Fable. Done when Keel accepts them and scenarios pass.</dd>
+      <dt>Hold</dt><dd>Inez: Ask $0 · 25 s · +1 Trail. Pay $70,000 · 50 s · +2. Help $40,000 · 50 s · +1. Pressure $0 · 35 s · +3. Purse $100,000: pay + driver ($110,000) fails; help + driver ($80,000) fits, so learning pays for a second route.</dd>
+      <dt>Also</dt><dd>Witnesses cross Pulse, Fable, Glyph and Chime. Drafts the rulebook with Keel first.</dd>
+      <dt>Opens</dt><dd>§02, §04–06, §08 · tests T2, T3</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Waymark</h3><span class="job">Mission designer</span><span class="meta"><span class="model">Opus 5.5</span><span class="tok">≈190 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The mission generator and the mission checker.</dd>
+      <dt>Receives</dt><dd>The template (objective, target, closing event, fight trigger), the district's people, the rulebook.</dd>
+      <dt>Delivers</dt><dd>Missions with a route and clue map, how they close and fail, and what starts the fight. Keel checks; Latch builds.</dd>
+      <dt>Hold</dt><dd>Handover is the reference case the generator must match. <b>Ships only if</b> 2+ quiet routes win, a loud route costs more Trail, every fail can happen, no contact is essential, and an informed player has a minute to spare. One block, 8–12 min.</dd>
+      <dt>Also</dt><dd>Pulse (schedules), Motive (prices).</dd>
+      <dt>Opens</dt><dd>§07–09 · tests T5, T6</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Fable</h3><span class="job">Dialogue designer</span><span class="meta"><span class="model">GPT 6.1 Sol</span><span class="tok">≈170 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The dialogue generator.</dd>
+      <dt>Receives</dt><dd>Motive's temperament rules; each person's state (brave, bitter, promoted) and the actions open to them.</dd>
+      <dt>Delivers</dt><dd>Lines that match what each person can do and how they feel. Motive reviews; Latch builds them in.</dd>
+      <dt>Hold</dt><dd><b>History, not backstory:</b> people are memorable through what the systems record with you; text is a light layer. Built at build time, never live. Tone and rating filters. Civilians are never the payload.</dd>
+      <dt>Also</dt><dd>Chime (voices, contacts confirming calls aloud), Glyph (dossier text).</dd>
+      <dt>Opens</dt><dd>§04, §09 · test T7</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Pulse</h3><span class="job">Schedule and AI designer</span><span class="meta"><span class="model">GPT 6.1 Sol</span><span class="tok">≈200 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>Routines for people, security, transit and rivals; crowds; investigators; fight AI.</dd>
+      <dt>Receives</dt><dd>Motive's rules, Keel's rulebook, Vela's layout.</dd>
+      <dt>Delivers</dt><dd>Schedules and behaviour. Keel checks; Latch builds.</dd>
+      <dt>Hold</dt><dd>Handover: rival car 3:10, last driver turn 5:40, Vale out 5:50, over 8:00. Patrol breaks to gunfire within 30 m; seal 2:25 after the response unit. Witness = sightline within 13 m. Investigators question every ~20 s, 60–90 s per lead. Crowds scatter, block or join; 30 combatants max.</dd>
+      <dt>Opens</dt><dd>§05–07 · tests T1, T4</dd>
+    </dl></article>
+  </div>
+  <div class="foot"><span>The Suborned · ADD v0.12.0</span><span>2 / 7</span></div>
+</section>
+
+<!-- ============ PAGE 3 · ENGINEERING AND QA ============ -->
+<section class="page" id="engineering">
+  <div class="head"><div class="num">03</div><div><div class="kick">Role briefs · engineering and QA</div><h2>Who keeps the rules true in the build</h2></div></div>
+  <div class="roles">
+    <article class="role wide"><header><h3>Keel</h3><span class="job">Simulation engineer</span><span class="meta"><span class="model">Opus 5.5 · keeps the rulebook</span><span class="tok">≈200 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The rulebook: every event in the city, what it needs, what it changes and who sees it. Also the 28 test scenarios.</dd>
+      <dt>Receives</dt><dd>Motive's rules, Waymark's missions, Pulse's schedules, Fable's lines, and what the debrief carries forward.</dd>
+      <dt>Delivers</dt><dd>The rulebook to everyone; checked content to Latch; mistakes back to their authors. Design decisions stay with Motive.</dd>
+      <dt>Hold</dt><dd>The rules live apart from the engine. Any run replays exactly from its starting state and the player's orders. One incident counts once toward Alert. Unity must pass the same 28 scenarios before content goes in. Locked only after the week 4 playtest.</dd>
+      <dt>Opens</dt><dd>§05, §06, §08, §11</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Latch</h3><span class="job">Unity engineer</span><span class="meta"><span class="model">Opus 5.5</span><span class="tok">≈200 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The Unity build and its scenes. The only agent that edits scenes.</dd>
+      <dt>Receives</dt><dd>The rulebook, checked content, approved art and audio, a playable target.</dd>
+      <dt>Delivers</dt><dd>A playable build that records every event and the debrief, to Suture and Redline.</dd>
+      <dt>Hold</dt><dd>Week 2: rules in Unity, Handover laid out. Week 3: cell, contacts, security, rivals. Week 4: final fight (both branches), payoff cut, dossier, debrief. Week 5: no new systems. Painted static scene; anything that changes state is live 3D. Controls: click, Shift, 1–4, E, F, C, <b>Next Event</b>, pause.</dd>
+      <dt>Opens</dt><dd>§07, §10, §11 · tool: Unity (owner)</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Suture</h3><span class="job">Playtest and QA lead</span><span class="meta"><span class="model">Opus 5.5</span><span class="tok">≈190 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>Uncoached playtests, test reports and tests T1–T7.</dd>
+      <dt>Receives</dt><dd>The build, the scenario, the expected outcome and the questions to ask players.</dd>
+      <dt>Delivers</dt><dd>Reports with steps to reproduce, expected against observed, and clips. Sends bugs to their owners and retests.</dd>
+      <dt>Hold</dt><dd>Six new players per test; most pass bars are 5 of 6. Handover wins when Vale reaches the car alive. It fails if Vale dies, leaves or is taken, the district seals, the Enforcer goes down, or the entry is seen. Checks the gate every week from week 3.</dd>
+      <dt>Opens</dt><dd>§07, §11, §13 · tool: Unity (checks)</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Splice</h3><span class="job">Tools engineer</span><span class="meta"><span class="model">GPT 6.1 Sol</span><span class="tok">≈110 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The checking tools.</dd>
+      <dt>Receives</dt><dd>Keel's rulebook.</dd>
+      <dt>Delivers</dt><dd>A Unity checking tool that catches missing people, unreachable places or impossible actions before Latch builds.</dd>
+      <dt>Hold</dt><dd>Every generated person reaches their places and has one clear need. Anything not in the rulebook is rejected, however plausible it looks.</dd>
+      <dt>Opens</dt><dd>§09, §12 · tool: Unity (checks)</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Redline</h3><span class="job">Code and performance reviewer</span><span class="meta"><span class="model">Opus 5.5</span><span class="tok">≈120 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>Code review and performance.</dd>
+      <dt>Receives</dt><dd>Latch's build and the performance targets.</dd>
+      <dt>Delivers</dt><dd>A review. Latch fixes; Redline retests.</dd>
+      <dt>Hold</dt><dd>Judge by frame rate at play zoom, not polygon counts. 30 active combatants at most; the background crowd can be far larger (a 10,000-citizen stress test already runs). Anything that breaks exact replay is a defect.</dd>
+      <dt>Opens</dt><dd>§11</dd>
+    </dl></article>
+  </div>
+  <div class="foot"><span>The Suborned · ADD v0.12.0</span><span>3 / 7</span></div>
+</section>
+
+<!-- ============ PAGE 4 · ART AND AUDIO ============ -->
+<section class="page" id="art">
+  <div class="head"><div class="num">04</div><div><div class="kick">Role briefs · art and audio</div><h2>Who makes the street readable</h2></div></div>
+  <div class="roles">
+    <article class="role wide"><header><h3>Vela</h3><span class="job">Environment artist</span><span class="meta"><span class="model">GPT 6.1 Sol</span><span class="tok">≈190 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The 2.5D scene: paintings over simple 3D shapes.</dd>
+      <dt>Receives</dt><dd>The Handover layout and sightlines.</dd>
+      <dt>Delivers</dt><dd>A scene that keeps entrances, sightlines and routes readable, handed to Latch.</dd>
+      <dt>Hold</dt><dd><b>Retro-future:</b> cream stone, teal enamel, coral transit, chrome, a skyline of towers, rockets and planets. Optimistic on the surface, coercive underneath.</dd>
+      <dt>Hold</dt><dd>Painted and static: buildings, paving, skyline. Anything that changes state is live 3D. Exteriors only. The playable block stays dense; the skyline frames the edge. No surface uses a signal colour at full strength.</dd>
+      <dt>Opens</dt><dd>§07, §10 · tools: Runware, Blender</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Forma</h3><span class="job">Character artist and animator</span><span class="meta"><span class="model">GPT 6.1 Sol</span><span class="tok">≈130 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>People, rigs and animation.</dd>
+      <dt>Receives</dt><dd>Job silhouettes and the character-height target.</dd>
+      <dt>Delivers</dt><dd>Figures, rigs and animation, including the combat set (shoot, melee, hit, panic). Glyph checks legibility; Latch builds.</dd>
+      <dt>Hold</dt><dd>40–60 px tall at 1080p; job, silhouette and facing readable. Only walk and run exist so far: combat animation is a top risk.</dd>
+      <dt>Opens</dt><dd>§06, §10 · tools: Blender, Runware</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Glint</h3><span class="job">Lighting artist</span><span class="meta"><span class="model">GPT 6.1 Sol</span><span class="tok">≈120 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>Lighting that makes the live 3D sit in the painted scene.</dd>
+      <dt>Receives</dt><dd>The scene, the camera and the visual budget.</dd>
+      <dt>Delivers</dt><dd>Lighting, checked in game by Latch.</dd>
+      <dt>Hold</dt><dd>Match one character and one vehicle before building more. Signal colours stay readable under every light. The budget is frame rate at play zoom.</dd>
+      <dt>Opens</dt><dd>§10 · tools: Runware, Blender, Unity (checks)</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Glyph</h3><span class="job">Interface artist</span><span class="meta"><span class="model">GPT 6.1 Sol</span><span class="tok">≈150 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>The HUD, dossier, action cards and signal colours.</dd>
+      <dt>Receives</dt><dd>Layout, information hierarchy and accessibility needs.</dd>
+      <dt>Delivers</dt><dd>Interface art and colours, handed to Latch.</dd>
+      <dt>Hold</dt><dd>Every order shows its full price first: cash, time, Trail, Alert risk. The dossier separates known, suspected and planned. Cones red, guard amber, rivals violet, each with a shape or motion cue too. Investigators show a questioning icon and a dotted line joining their leads.</dd>
+      <dt>Opens</dt><dd>§02, §05, §10 · test T3 · tool: Runware</dd>
+    </dl></article>
+
+    <article class="role"><header><h3>Chime</h3><span class="job">Audio designer</span><span class="meta"><span class="model">GPT 6.1 Sol</span><span class="tok">≈150 tokens</span></span></header><dl>
+      <dt>Owns</dt><dd>Timing and consequence cues, and the mix.</dd>
+      <dt>Receives</dt><dd>Routine, reply and risk states.</dd>
+      <dt>Delivers</dt><dd>Cues and the mix. Latch wires them in; Suture checks them.</dd>
+      <dt>Hold</dt><dd><b>Audio is part of the clock:</b> a bell, the café door, the handover chime at 5:30. A surveillance click at the edge of each sweep; the patrol sounds different when it breaks route. Alert adds music layers; a fight brings the whole score. Contacts confirm calls aloud.</dd>
+      <dt>Opens</dt><dd>§10 · tool: Runware</dd>
+    </dl></article>
+  </div>
+  <div class="foot"><span>The Suborned · ADD v0.12.0</span><span>4 / 7</span></div>
+</section>
+
+<!-- ============ PAGE 5 · APPENDIX · AGENT GDD ============ -->
+<section class="page agdp">
+  <div class="head"><div class="num">A</div><div><div class="kick">Appendix · agent GDD · text only · exactly as loaded</div><h2>The design, written for agents</h2><p>File: <code>the-suborned-agent-gdd-v0.12.0-2026-09-30.md</code> · §01–§13 shown here, ≈5,400 tokens. §14 ROLES, the end of the same file, holds the role cards from pages 2–4 as text; each agent loads only its own block.</p></div></div>
+  <pre class="agd"><b class="t">THE SUBORNED · AGENT GDD v0.12.0 · 2026-09-30</b>
+src: the-suborned-gdd-v0.12.0-2026-09-30.html. On conflict the src wins; report the mismatch to Aster. §13 TESTS exists only here.
+tags: [B] built, proven in top-down test · [S] spec, starting value, tune by playtest · [L] after capstone
+load: every agent = §01 + its own §14 block · Aster = §01–§13 + its §14 block · open other sections by number on demand
+units: s seconds · m:ss mission clock · $ cash · T Trail · A Alert
+
+<b class="h">§01 GAME + CORE (loaded first by every agent)</b>
+game: single-player real-time tactics + social infiltration · PC · Unity · camera above street, never first person · exteriors only (interiors = timed off-screen actions) · mission = 1 block, 8–12 min, live clock
+fantasy: commander. The city carries out your plan without knowing it: turn ordinary people, time their small acts into one plan.
+arc: one person → networks → districts. Every system adds to or tests that growth.
+look: bright retro-future (cream stone, teal enamel, coral transit, chrome; skyline of towers, rockets, planets). Optimistic surface, coercive underneath.
+pillars (test):
+- subvert people: does knowing more make a person cheaper, quieter or more loyal?
+- orchestrate the city: does it open or close a window the player can see coming?
+- live with it: will the player meet this choice again?
+tiebreakers, in order: readable &gt; rich · people &gt; powers · systems &gt; scripts (nothing hand-authored) · preparation &gt; improvisation · commander &gt; avatar · exteriors only
+terms: Trail = campaign evidence from traceable acts, drives investigations · Alert 0–3 = security response now (routine, inquiry, search, lockdown) · Standing = Hero ↔ Menace per district, witnessed acts only · Heat = T + Menace, threshold schedules a fight · bravery (helped → Fighter) / resentment (coerced → Informer) · Talker = fear + resentment &gt; bravery + loyalty, gives you up when questioned
+house rules:
+- build only against Keel&#x27;s rulebook (each event: needs, changes, witnesses). Unknown = reject.
+- no AI at runtime. Content generated at build time. Same orders → same result. Any run replays exactly from start state + orders.
+- handoff = inputs · done-check · next owner.
+- only Latch edits Unity scenes. Price paid runs before starting.
+- escalate to Sky (via Aster) only: pillar change, new paid spend, release, destructive action, unresolved conflict.
+
+<b class="h">§02 LOOP + RESOURCES</b>
+mission: Watch → Learn → Turn → Time → Take → Fight → Inherit
+campaign: turned people pay cash/arms/tips → turn more people (snowball). Contacts grow braver or bitter. T + Standing set pushback.
+| resource | scope | drives | from |
+| Cash | campaign | fees, debts, bribes, turning | sources (skimming clerk, bookmaker) |
+| Arms | campaign | winning fights, arming joiners | sources (quartermaster, hijack) |
+| Assets | campaign | access, income, fight allies | Fixer, introductions |
+| Time | mission | actions 6–62 s; events don&#x27;t wait | — |
+| Trail | campaign | investigations; part of Heat | traceable acts: threats, visible payments, gunfire |
+| Alert 0–3 | mission | security response now | witness reports, found faults, shots |
+| Standing | district | who agrees, crowd behaviour | witnessed acts only |
+rule: every order shows full price before commit ($, time, T, A risk).
+chain: Handover route A is itself a chain (watch café → clear Inez&#x27;s debt → loop camera → coffee spill pulls guard → take Vale). Each person sees only their part; city investigates backward, link by link [S]. Later operations chain more links across a district [L].
+
+<b class="h">§03 CELL</b>
+| op | verbs | notes |
+| Scout | Watch, Listen, Mislead | reveals routine/need/temperament; false tips send rivals away |
+| Fixer | Turn, Call | offer/pay/help/threaten; calls contacts in on cue; the face witnesses remember |
+| Tech | Loop, Reroute | blinds surveillance, misdirects patrols; tethered while holding |
+| Enforcer | Enter, Take, Fire | only op who carries the target or shoots |
+training: full cell. campaign: starts Fixer only; recruit the rest by turning people with the skill [S].
+
+<b class="h">§04 PEOPLE</b>
+person = routine + need + temperament + memory. Knowledge lowers price; standing decides who listens.
+approaches (Inez, training) [B]:
+| approach | requires | $ | time | T | leaves |
+| Ask cold | — | 0 | 25 s | +1 | remembered refusal: later offers +$10,000, +1 T |
+| Pay | routine known (Watch 52 s) | 70,000 | 50 s | +2 | traceable payment; neutral |
+| Help (clear debt) | need known (Listen 42 s) | 40,000 | 50 s | +1 | gratitude; bravery can grow |
+| Pressure | need known | 0 | 35 s | +3 | fear; resentment grows; can identify Fixer |
+purse: pay + driver = 110,000 &gt; 100,000; help + driver = 80,000 fits → learning buys the second route.
+temperament [S]:
+| type | responds to | Hero | Menace |
+| Idealist | Help; refuses bribes | volunteers free; bravery fast | refuses; may report |
+| Mercenary | Pay | overcharges | discount; sells you to highest bidder |
+| Fearful | Pressure | hesitates; needs Help ×2 | folds free |
+| Loyal (institution) | trust over time | turns after repeated Help | reports any approach |
+Hero and Menace campaigns turn different halves of the city = replay value.
+bravery [S]: Informant → Helper → Accomplice (hides op, drives) → Fighter (joins armed). +1 step per job completed unexposed.
+resentment [S]: Compliant → Resentful → Informer (sells a route → ambush scheduled later). +1 step per pressure or exposure.
+talker [S]: questioned, a person gives up known facts if fear + resentment &gt; bravery + loyalty (deterministic). Facts: saw Fixer&#x27;s face, knows cell car, saw where/when. Brave helped contact lies → nothing or false lead.
+between missions: promoted (new access) · arrested (lost unless freed) · introduces a friend (new contact). Debrief reports each with cause.
+standing: per district, Hero ↔ Menace, witnessed acts only. Hero: shield civilians, clear debts publicly, free arrested locals. Menace: shoot in crowds, public threats, harm bystanders. Unwitnessed threat: no change (victim still knows). Neither end loses.
+| | Hero | Menace |
+| turning | slower, dearer, loyal | faster, cheaper, betrayal risk |
+| crowds | join fights, hide ops | obey from fear, report, scatter under fire |
+| fights | fewer; police hesitate in crowds | more often; harder |
+| street | graffiti, cheering, free tips | wanted posters, averted eyes, empty pavements |</pre>
+  <div class="foot"><span>The Suborned · ADD v0.12.0 · appendix · agent GDD</span><span>5 / 7</span></div>
+</section>
+
+<!-- ============ PAGE 6 · APPENDIX · AGENT GDD ============ -->
+<section class="page agdp">
+  <pre class="agd"><b class="h">§05 PRESSURE</b>
+urgency = scheduled events with reasons, never an arbitrary countdown. Each mission defines its closing event.
+security [B]: guard on door routine (café stop pre-shift) · cameras: fixed visible cones, blocked by roofs/parked vehicles · patrol sweep, breaks to gunfire within 30 m · response unit on report; district seals 2:25 after it arrives.
+rivals [B]: same target, own schedule. False tip: away 3:50. Gunfire: arrive within 16 s.
+| A | security does | raised by |
+| 0 routine | follows schedules | — |
+| 1 inquiry [S] | checks spot; patrol tightens | witness report or found fault, once per incident |
+| 2 search [B] | response unit to reported route | 2nd incident or any gunfire |
+| 3 lockdown [B] | doors lock; district seals | violence seen by a civilian → 3 at once |
+witness [S]: clear sightline within 13 m of a traceable act → +1 T per incident, moves standing. Crowds also block guard/camera sightlines.
+investigators [S][L]: on foot question ~every 20 s; cars move fast, stop to question; count rises with A and T. Pick civilians near last incident by sightline + distance, not luck. Useful answer = fact with place + time → go there, question again; ~60–90 s per hop.
+visible: questioning icon, dotted line joining held leads, unit following it.
+counters: keep moving (sightings go stale) · reach witness first (pay/reassure/threaten; threat adds fear) · Scout false tip · citizens block cars · break sightlines in a crowd.
+output: findings → debrief Investigation state → next mission. Hero campaign: brave locals give false leads.
+
+<b class="h">§06 FIGHTS</b>
+fights measure preparation (arms, brave contacts, streets). Not a separate combat game.
+frequency [S]: Heat = campaign T + Menace standing. Threshold crossed → fight event (raid, ambush, rival hit) in next mission. No dice.
+size [S]: act I 3–6 hostiles · II 8–15 · III 20–30. Hard cap 30 simulated combatants; rest = background crowd (run/cheer only).
+your side: cell + Accomplice/Fighter contacts + crowd joiners (Hero), armed up to Arms stock.
+citizen actions: scatter (breaks sightlines, covers retreat) · block (lorry, stalled tram, crowd vs police vehicles) · join (bare-handed or armed) · vehicle strike (ram barricade or rigged vehicle; driver always jumps clear).
+content line: civilians are never the payload; no coerced suicide attacks. Menace can be uglier (collateral, witnesses) but no civilian dies as the weapon.
+health [S][L]: civilian 2 · guard/officer 3 · rival 3 · patrol unit 4 · Scout/Fixer/Tech 4 · Enforcer 6. Bars on select and for all in a fight. Weapons (Arms): pistol 1 dmg, heavier 2–3. Armour via quartermaster, healing via turned doctor (people, not upgrades).
+downed: op at 0 = downed; carry to car, or captured → rescue mission.
+civilians targetable: every witness → Menace; contact who witnesses loses bravery, gains fear + resentment → some Informer, more Talkers. Fastest way to undo progress.
+prototype [B]: Enforcer shot 6 s; 2 hits drop a person or patrol unit; Enforcer takes 3. Each shot +1 A, +2 T, draws rivals + patrols, Menace if witnessed. Shooting a contact ends the relationship. Shooting the target = fail. T2 decides whether costs rise.
+decisive shot [L]: 1–2× per fight: slow time, camera behind Enforcer, one aimed shot, back to tactical.
+
+<b class="h">§07 HANDOVER (training mission · capstone)</b>
+brief: Councillor Vale signed the clearance order for the marked block. At shift handover he leaves the Civic Records Office for his official car. Take him alive to the getaway car. Full cell. Purse $100,000. Every verb introduced once.
+cast: Vale · Inez (café waitress, in debt) · guard · official driver (needs cash) · rival crew · cameras · patrol.
+schedule: 0:00 Vale inside; routines run; cell at getaway car · 3:10 rival car parks near pickup · 5:30 handover chime · 5:40 last chance to turn driver · 5:50 Vale exits north (service lane if driver turned) · 6:10 Vale at car · 8:00 rivals take Vale or car leaves = over.
+route A, front door (before 5:50): Scout watches café, listens to Inez (1:34) → Fixer helps Inez ($40,000) → Tech loops entrance camera (1:02, tethered; optional patrol reroute 1:55) → Fixer calls Inez: guard walks 30 s, stays 60 s, returns 30 s = 2:00 window [payoff cut] → Enforcer enters (38 s), exits service door with Vale, to car (44 s).
+route B, pickup (from 5:50): Scout watches car: driver needs cash (48 s) → Fixer turns driver before 5:40 ($40,000): pickup moves to service lane, or driver blocks pickup camera 2:30 → Scout false tip on rivals (44 s), or fight → Enforcer intercepts (38 s), to car (44 s).
+final fight [S]: always; 30–60 s; 3–5 hostiles.
+- loud (any shot or A ≥ 2): police from west street, 2–4 officers, seal clock running, no allies.
+- safe (no shots, A ≤ 1): rivals ambush extraction; guard (never saw you) fights them; helped Inez warns 10 s early; turned driver blocks rival car (−1 rival); earlier false tip (−1 rival).
+win: Vale alive at getaway car.
+fail: Vale killed · Vale leaves in official car · rivals reach Vale · district seals · Enforcer down · entry seen by guard, live camera or patrol. Withdraw ends the attempt.
+reference case: the mission generator must reproduce a mission of Handover&#x27;s quality; the checker must pass it.
+
+<b class="h">§08 CAMPAIGN</b>
+acts: I one person (Fixer alone; recruit cell; first income; fights 3–6) · II networks (introductions; take a workplace e.g. docks, depot; brave contacts fight; 8–15) · III districts (streets rise or obey by standing; institutions + rival factions field squads; 20–30).
+economy [S]: turned people become sources paying each mission: clerk skims cash, quartermaster diverts arms, café owner tips needs before Scout listens. Procurement missions target a source. Snowball.
+wounds [S]: health carries over. Turned doctor heals fast and quietly. No doctor → optional pre-mission objective to watch/turn/pay one, if calendar allows. Main mission date never moves. Choice: go in hurt, short-handed, or spend the days.
+objectives [S]: kidnapping · bank job via planted teller · killing by manipulated proxy · takeover via ruined reputation. Direct force always works, with bigger T.
+debrief [B] → next mission:
+| output | states | from |
+| public security | Calm → Raised → High | final A; any shot fired |
+| investigation | little → early → active (named cause) | T 0 / 1–2 / 3+; named witnesses take precedence |
+| assets | e.g. Inez introduces café contacts; Inez may identify Fixer | how turned, what they saw |
+| standing, bravery, resentment, Heat [S] | per district / contact | witnessed acts, jobs, pressure used |
+replay freely before Continue; after, the result stands.</pre>
+  <div class="foot"><span>The Suborned · ADD v0.12.0 · appendix · agent GDD</span><span>6 / 7</span></div>
+</section>
+
+<!-- ============ PAGE 7 · APPENDIX · AGENT GDD ============ -->
+<section class="page agdp">
+  <pre class="agd"><b class="h">§09 GENERATION</b>
+nothing hand-authored. Sky writes rules + generators. The simulation plays every generated mission before a player sees it. Build time only.
+| content | from | checked by |
+| people | occupation × temperament × need × relationships × routine, fit to district schedules | reach their places; one clear need |
+| missions | template (objective, target, closing event, fight trigger) + district people | mission checker |
+| dialogue, portraits, voices | person data + state (brave, resentful, promoted) | tone + rating filters; sampled review |
+| consequences | rules on mission log | replay → same result |
+mission checker: ships only if ≥ 2 quiet routes win · loud route exists and costs more T · every fail condition reachable · no single contact essential · fully informed player finishes ≥ 1:00 before closing event.
+risk: sameness (Watch Dogs: Legion). Fix: history, not backstory; people are memorable via what the systems record. Text = light layer. Live AI chatter [L] only if it never touches rules.
+
+<b class="h">§10 PRESENTATION</b>
+camera: fixed tactical view. Capstone = static 2.5D scene with 3D projection; full 3D if time; rules unchanged. Characters 40–60 px tall at 1080p (job, silhouette, facing readable).
+split: painted static = buildings, paving, skyline. Live 3D = people, vehicles, doors, surveillance, barricades, posters, anything with state. Match lighting on 1 character + 1 vehicle before building more.
+controls: click select/move · Shift group · 1–4 operative · E engage · F fire · C call · click person/door/camera → action card with full price · Next Event jumps to next scheduled change · live clock + tactical pause (T1).
+readability: cones red · guard amber · rivals violet. No environment surface uses a signal colour at full strength; each signal also has a shape or motion cue. Dossier separates known / suspected / planned.
+payoff cut: plan lands → brief street-level cut → same state. Capstone has one (Inez spills coffee, guard walks off). More cuts + decisive shot [L].
+audio = clock: bell, café door, 5:30 handover chime · surveillance click at sweep edge · patrol sound changes when it breaks route · Alert adds music layers; fight = full score · contacts confirm calls aloud.
+reskin rule: any era must provide watching institutions (for Tech), vehicles + dense crowds, jobs readable from clothing, respectable surface over coercive machine, firearms + plausible rigged vehicle.
+
+<b class="h">§11 BUILD</b>
+built: top-down test of Handover (4 ops, 2 contacts, security, rivals, shooting, debrief, campaign lock; 28 scenarios pass) · 2.5D scene in progress.
+architecture: rules separate from engine · events carry conditions, effects, witnesses · exact replay from start state + orders · Unity must pass the same 28 scenarios before it&#x27;s trusted · performance = frame rate at play zoom, not polygons.
+capstone, 5 weeks:
+| wk | deliverable | exit |
+| 1 | rules proven in top-down test | 2 routes win; loud fails at a cost [done] |
+| 2 | rules in Unity; Handover in 2.5D scene | 28 scenarios pass in Unity |
+| 3 | cell control, contacts, security, rivals, readability | first uncoached playtest |
+| 4 | final fight both branches, payoff cut, dossier, event log, debrief | new-player test; freeze rules |
+| 5 | tuning, fixes, audio cues; no new systems | final uncoached gate |
+gate: uncoached player can state objective + fail conditions, pick an approach from something learned, explain its $/time/T cost, complete a chain, say why police vs rivals, read what next mission inherits.
+cut order if late: crowd witnesses (decorative) → patrol reroute → camera-block variant → police branch (rivals only). Never cut: both routes, one payoff cut, debrief, gate test.
+beyond: vertical slice (1 district, 2–3 generated missions, temperament, standing, small fights) 6–10 wks · full game (3 acts, 3 districts, fights ≤ 30) ~12 months. Replace with measured velocity after capstone.
+risks: combat feel + animation (only walk/run exist) · generated sameness · playtest time. Fixed limits: 30 combatants, vehicles on lanes, 3 districts, no interiors, no first person.
+
+<b class="h">§12 CREW</b>
+Aster leads 14 agents; Sky is the only human. Loop: assess → assign → review → continue. One owner per objective with a done-check; Suture/Redline review; Aster accepts or returns.
+models: Opus 5.5 = Aster, Motive, Keel, Latch, Waymark, Suture, Redline · GPT 6.1 Sol = Glyph, Fable, Pulse, Splice, Vela, Forma, Glint, Chime.
+tools: Runware (Glyph, Vela, Forma, Glint, Chime; priced per run) · Blender (Vela, Forma, Glint; previews only) · Unity (Latch owns; Splice, Glint, Suture check).
+order: Motive + Keel draft rulebook first; others work in parallel against the draft; Latch owns critical path; rulebook frozen after week 4.
+budget: two 20× subscriptions (one Codex, one Claude). Aster drops optional work when allowance is low. Per-use credits (Runware, Meshy) priced first.
+
+<b class="h">§13 TESTS (agent copy only; not in the human GDD)</b>
+default: 6 new players.
+| id | question | method | pass |
+| T1 | tactical pause? | same build, 6 each way | pause wins unless no-pause players explain failures as well and rate tension higher |
+| T2 | loud dominates? | log first-shot time + route | &lt; 25% shoot before 2:00; informed quiet runs finish faster |
+| T3 | Trail readable? | ask &quot;why is the investigation active?&quot; | ≥ 5/6 give correct cause |
+| T4 | witnesses add decisions? | A/B witnesses on/off | players route around crowds on purpose |
+| T5 | kidnapping fits tone? | framing survey | cell read as resistance, not criminals |
+| T6 | final fight reads as consequence? | ask &quot;why these enemies?&quot; | ≥ 5/6 link it to loud/quiet |
+| T7 [L] | contacts memorable? | recall 1 day later | name ≥ 2 contacts + what happened |</pre>
+  <div class="foot"><span>The Suborned · ADD v0.12.0 · appendix · agent GDD · Sky Rumsey · 30 September 2026</span><span>7 / 7</span></div>
+</section>
+
+</body>
+</html>
